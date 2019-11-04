@@ -18,13 +18,13 @@ public class OsrankNaiveRandomGraphApp {
     public long RANDOM_SEED = 842384239487239l;
 
     // Random project graph generation parameters
-    public int NUM_PROJECTS = 10000;
-    public int NUM_EXTRA_ACCOUNTS = 20000;
+    public int NUM_PROJECTS = 1000000;
+    public int NUM_EXTRA_ACCOUNTS = 2000000;
     int MAX_ADDITIONAL_PROJECTS_TO_CONTRIBUTE_TO = 10;
     int MAX_EXTRA_CONTRIBUTIONS_PER_PROJECT = 20;
 
     // Naive Osrank parameters
-    public static final int R = 1000;
+    public static final int R = 100;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
 
@@ -65,6 +65,14 @@ public class OsrankNaiveRandomGraphApp {
 
     public static void main(String[] args) {
 
+        long startTimestamp = System.currentTimeMillis();
         new OsrankNaiveRandomGraphApp().runOsrankNaive();
+        long endTimestamp = System.currentTimeMillis();
+
+        long totalTime = endTimestamp - startTimestamp;
+        long totalSeconds = totalTime / 1000;
+
+        System.out.println("Run took " + totalSeconds + " seconds");
+
     }
 }
