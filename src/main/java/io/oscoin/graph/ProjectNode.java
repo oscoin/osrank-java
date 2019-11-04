@@ -32,6 +32,8 @@ public class ProjectNode extends Node {
         maintainers.add(maintainerId);
     }
 
+    public void addProjectDependency(Integer dependencyId) {dependencies.add(dependencyId); }
+
     public void buildConnectedNodeProbs() {
 
         // First get the total contrib count

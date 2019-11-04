@@ -11,6 +11,10 @@ import java.util.Random;
 
 public class RandomGraphLoader {
 
+    public static final int TIER_2_MAX_DEPENDENCIES = 10;
+
+    public static final int TIER_3_MAX_DEPENDENCIES = 50;
+
     public static Graph buildRandomlyGenerattedGraph(
             int numProjects,
             int numExtraAccounts,
@@ -23,7 +27,7 @@ public class RandomGraphLoader {
         List<ProjectNode> projectNodes = new ArrayList<>();
 
         // Each project has one contributor/maintainer by default
-        for (int i=0; i<numProjects; i++) {
+        for (int i=0; i<numProjects * 2; i=i+2) {
             ProjectNode projectNode = new ProjectNode(i);
             projectNodes.add(projectNode);
             projectNode.addProjectContributor(i+1, 10);
@@ -34,6 +38,22 @@ public class RandomGraphLoader {
             accountNode.addProjectContributions(i, 10);
             accountNode.addProjectMaintained(i);
             graph.addAccountNode(accountNode);
+
+            // Each project after the first 100 has a chance of having some dependencies
+            if (i > 100) {
+                double dependenciesRand = random.nextDouble();
+                if (dependenciesRand >= 0.3 && dependenciesRand < 0.7) {
+                    addOneProjectDependency(projectNode, projectNodes, i, random);
+                } else if (dependenciesRand > 0.7 && dependenciesRand < 0.9){
+                    for (int j=0; j<random.nextInt() % TIER_2_MAX_DEPENDENCIES; j++) {
+                        addOneProjectDependency(projectNode, projectNodes, i, random);
+                    }
+                } else if (dependenciesRand > 0.9){
+                    for (int j=0; j<random.nextInt() % TIER_3_MAX_DEPENDENCIES; j++) {
+                        addOneProjectDependency(projectNode, projectNodes, i, random);
+                    }
+                }
+            }
         }
 
         // Then there are a number of extra accounts that each contribute to an additional random number of projects
@@ -62,5 +82,15 @@ public class RandomGraphLoader {
         }
 
         return graph;
+    }
+
+    private static void addOneProjectDependency(
+            ProjectNode projectNode,
+            List<ProjectNode> projectNodes,
+            int maxProjectIndex,
+            Random random) {
+
+        int dependencyIndex = 2 * (Math.abs(random.nextInt()) % (maxProjectIndex - 1));
+        projectNode.addProjectDependency(dependencyIndex);
     }
 }

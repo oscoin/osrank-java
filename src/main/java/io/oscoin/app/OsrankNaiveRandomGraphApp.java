@@ -24,7 +24,7 @@ public class OsrankNaiveRandomGraphApp {
     int MAX_EXTRA_CONTRIBUTIONS_PER_PROJECT = 20;
 
     // Naive Osrank parameters
-    public static final int R = 100;
+    public static final int R = 1000;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
 

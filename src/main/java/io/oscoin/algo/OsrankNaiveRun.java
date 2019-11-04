@@ -53,8 +53,11 @@ public class OsrankNaiveRun {
             if (dampingCheck >= dampingFactor) break;
 
             // Get the next node
-            Integer nextNodeId = currentNode.walkToNextNodeId(random.nextDouble());
-            currentNode = graph.getNodeById(nextNodeId);
+            double randomValueForNextNode = random.nextDouble();
+            Integer nextNodeId = currentNode.walkToNextNodeId(randomValueForNextNode);
+            Node nextNode = graph.getNodeById(nextNodeId);
+
+            currentNode = nextNode;
         }
     }
 }
