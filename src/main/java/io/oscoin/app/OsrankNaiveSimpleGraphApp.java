@@ -9,6 +9,9 @@ import io.oscoin.loader.SimpleGraphLoader;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Application class that runs naive Osrank on a simple graph with one project node and one account node.
+ */
 public class OsrankNaiveSimpleGraphApp {
 
     public static final long RANDOM_SEED = 842384239487239l;

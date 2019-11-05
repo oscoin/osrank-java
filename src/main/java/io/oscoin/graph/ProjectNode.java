@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Extends Node to handle state and behavior for graph nodes that represent software projects in the graph, as
+ * outlined in the Oscoin whitepaper.
+ *
+ */
 public class ProjectNode extends Node {
 
     private Map<Integer,Integer> contributorToContribCount;
@@ -43,7 +48,8 @@ public class ProjectNode extends Node {
     public void addProjectDependency(Integer dependencyId) {dependencies.add(dependencyId); }
 
     public void buildConnectedNodeProbs() {
-        // Reset connected node probs in case this was called before
+
+        // Clear connected node probs in case this method was called before
         connectedNodeProbs.clear();
 
         // First get the total contrib count

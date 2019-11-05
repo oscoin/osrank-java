@@ -4,8 +4,15 @@ import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.ProjectNode;
 
+/**
+ * Helper class with static methods for creating simple graphs with pre-defined structure that are useful for testing.
+ */
 public class SimpleGraphLoader {
 
+    /**
+     * @return  A very simple graph with one project node and one account node that is both a contributor (with 10
+     * contributions) and maintainer for the project.
+     */
     public static Graph buildSimpleOneProjectOneContributorGraph() {
 
         Graph graph = new Graph();

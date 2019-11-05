@@ -7,6 +7,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Instances of AccountNode handle state for a single account node as it is defined in the Oscoin whitepaper.
+ * Account nodes can be connected to projects by edges that are "contributor" edges, or "maintainer" edges
+ * (representing the corresponding types of relationships) or both.
+ *
+ */
 public class AccountNode extends Node {
 
     private Map<Integer,Integer> projectToContribCount;
@@ -22,7 +28,6 @@ public class AccountNode extends Node {
         projectToContribCount = new HashMap<>();
         projectsMaintained = new HashSet<>();
     }
-
 
     public void addProjectContributions(Integer projectId, Integer numContributions) {
         Integer currentContributions = projectToContribCount.get(projectId);

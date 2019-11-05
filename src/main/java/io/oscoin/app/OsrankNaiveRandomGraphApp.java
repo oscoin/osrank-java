@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Application class that runs naive Osrank on randomly generated graphs with parameters specified in the constant
+ * values in this class.
+ *
+ */
 public class OsrankNaiveRandomGraphApp {
 
     public long RANDOM_SEED = 842384239487239l;

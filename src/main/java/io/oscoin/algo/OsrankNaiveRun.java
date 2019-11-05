@@ -6,6 +6,13 @@ import io.oscoin.graph.ProjectNode;
 
 import java.util.Random;
 
+/**
+ * This class contains implementation logic for the "naive" Osrank algorithm -- i.e. an Osrank algorithm that computes
+ * Osranks for each node in the graph in a non-incremental fashion.
+ *
+ * Each instance of this class represents a starting state for the algorithm, including the graph it is to be run on,
+ * the parameters to use for the run, and a source of randomness.
+ */
 public class OsrankNaiveRun {
 
     private OsrankParams osrankParams;
@@ -18,6 +25,12 @@ public class OsrankNaiveRun {
         this.random = random;
     }
 
+    /**
+     * Runs the Osrank algorithm, given the parameters, graph and source of randomness that this class instance
+     * was created with.
+     *
+     * @return  The results of the run.
+     */
     public OsrankResults runNaiveOsrankAlgorithm() {
 
         OsrankResults osrankResults = new OsrankResults(osrankParams, graph);
@@ -32,6 +45,12 @@ public class OsrankNaiveRun {
         return osrankResults;
     }
 
+    /**
+     * Simulates a single random walk in the graph, noting which nodes were visited in the OsrankResults
+     *
+     * @param node  The node to start the random walk from
+     * @param osrankResults  The results object where results are recorded. In particular, numbers of node visits
+     */
     private void doOneRandomWalk(Node node, OsrankResults osrankResults) {
 
         Node currentNode = node;

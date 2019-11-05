@@ -1,5 +1,8 @@
 package io.oscoin.util;
 
+/**
+ * Helper class that maintains a mutable counter whose value can be incremented and queried.
+ */
 public class Counter {
 
     private long count;

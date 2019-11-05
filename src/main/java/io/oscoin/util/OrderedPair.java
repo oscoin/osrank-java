@@ -3,6 +3,13 @@ package io.oscoin.util;
 import java.io.Serializable;
 import java.util.Comparator;
 
+/**
+ * Collection class that implements the functionality of an ordered pair of two objects. Generics are used so that
+ * the two objects can be of any type.
+ *
+ * @param <E> The "left" side type in the pair
+ * @param <F> The "right" side type in the pair
+ */
 public class OrderedPair<E, F> implements Serializable {
 
     public E left;
@@ -39,6 +46,13 @@ public class OrderedPair<E, F> implements Serializable {
         }
     }
 
+    /**
+     * Specialized Comparator class that is useful for comparing OrderedPairs, where the natural ordering
+     * of one side or the other of the OrderedPair is used for the comparisons.
+     *
+     * @param <E> The "left" side type in the pair
+     * @param <F> The "right" side type in the pair
+     */
     @SuppressWarnings("unchecked")
     public static class OneSideOrderedPairComparator<E, F>
             implements Comparator<OrderedPair<E, F>>

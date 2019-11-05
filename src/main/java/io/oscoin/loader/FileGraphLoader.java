@@ -14,8 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Helper class with static methods for loading graphs from the "ecosystem" files in the osrank-rs-ecosystem repository
+ * in Oscoin github:
+ *
+ * https://github.com/oscoin/osrank-rs-ecosystems
+ *
+ */
 public class FileGraphLoader {
-
 
     public static Graph load(String metadataFilename, String dependenciesFilename, String contributionsFilename) {
 

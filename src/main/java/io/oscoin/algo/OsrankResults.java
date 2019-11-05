@@ -1,6 +1,5 @@
 package io.oscoin.algo;
 
-import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
 import io.oscoin.graph.ProjectNode;
@@ -9,6 +8,11 @@ import io.oscoin.util.Counter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data structure class for holding the results of a single run of the Osrank algorithm. Also includes the starting
+ * state information for the run (including OsrankParams and Graph, for reference).
+ *
+ */
 public class OsrankResults {
 
     private OsrankParams osrankParams;

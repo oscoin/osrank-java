@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Encapsulates data and logic for an entire graph of projects and accounts, as defined in the Oscoin whitepaper.
+ *
+ */
 public class Graph {
 
     private Map<Integer,Node> idToNodeMap;

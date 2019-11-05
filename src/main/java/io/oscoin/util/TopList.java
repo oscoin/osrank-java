@@ -3,6 +3,11 @@ package io.oscoin.util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Collection class that maintains a list of "top N" OrderedPairs, based on a sort order using the double value
+ * in the right side of the ordered pair.
+ *
+ */
 public class TopList {
 
     private static OrderedPair.OneSideOrderedPairComparator<Integer,Double> orderedPairComparator =

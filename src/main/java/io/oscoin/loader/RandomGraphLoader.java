@@ -9,12 +9,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Helper class with static methods for randomly generating graphs of arbitrary size.
+ */
 public class RandomGraphLoader {
 
     public static final int TIER_2_MAX_DEPENDENCIES = 10;
 
     public static final int TIER_3_MAX_DEPENDENCIES = 50;
 
+    /**
+     * Generates a random graph based the parameter values.
+     *
+     * The graph has the following structure. It has a number of projects equal to numProjects where for each
+     * project there is also an account node created that is a contributor (with 10 contributions) and maintainer
+     * for the project. Then a number of additional account nodes equal to numExtraAccounts are created.
+     * Each of these is a contributor to a random number of projects, where maxAdditionalProjectsToContributeTo
+     * is the maximum number.
+     *
+     * A number of the projects also depend upon other projects. For each project after the first 100, each project
+     * depends on zero other projects with a (30%) chance, 1 other project with a 40% chance, TIER_2_MAX_DEPENDENCIES
+     * projects with a 20% chance and TIER_3_MAX_DEPENDENCIES with a 10% chance.
+     *
+     * @param numProjects  The number of projects in the randomly generated graph
+     * @param numExtraAccounts  The number of extra accounts contributng to all of the projects (each project gets one by default)
+     * @param maxAdditionalProjectsToContributeTo  The maximum number of projects that each additional contributor can contribute to
+     * @param maxExtraContributionsPerProject  The maximum number of extra contributions that each additional contributor can make to
+     *                                         each project
+     * @param random  The Random object used to create random values to generate the graph
+     * @return
+     */
     public static Graph buildRandomlyGenerattedGraph(
             int numProjects,
             int numExtraAccounts,

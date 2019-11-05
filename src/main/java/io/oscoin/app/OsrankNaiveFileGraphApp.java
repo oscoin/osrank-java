@@ -16,14 +16,26 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * Application class that runs naive Osrank on graphs from the "ecosystem" files in the osrank-rs-ecosystem repository
+ * in Oscoin github:
+ *
+ * https://github.com/oscoin/osrank-rs-ecosystems
+ */
 public class OsrankNaiveFileGraphApp {
 
+    // Random seed to use
     public long RANDOM_SEED = 842384239487239l;
 
     // Naive Osrank parameters
     public static final int R = 100;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
+
+    // File paths to load graph of projects and accounts from
+    public static final String METADATA_FILE_PATH = "./metadata.csv";
+    public static final String DEPENDENCIES_FILE_PATH = "./dependencies.csv";
+    public static final String CONTRIBUTIONS_FILE_PATH = "./contributions.csv";
 
     public OsrankNaiveFileGraphApp() {
     }
@@ -32,10 +44,9 @@ public class OsrankNaiveFileGraphApp {
 
         System.out.println("Loading graph....");
         Graph graph = FileGraphLoader.load(
-            "./metadata.csv",
-            "./dependencies.csv",
-            "./contributions.csv"
-        );
+            METADATA_FILE_PATH,
+            DEPENDENCIES_FILE_PATH,
+            CONTRIBUTIONS_FILE_PATH);
         Random random = new Random(RANDOM_SEED);
         System.out.println("Done");
 
