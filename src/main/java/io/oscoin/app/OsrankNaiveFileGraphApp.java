@@ -3,21 +3,25 @@ package io.oscoin.app;
 import io.oscoin.algo.OsrankNaiveRun;
 import io.oscoin.algo.OsrankParams;
 import io.oscoin.algo.OsrankResults;
+import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
+import io.oscoin.graph.ProjectNode;
 import io.oscoin.loader.FileGraphLoader;
 import io.oscoin.util.OrderedPair;
 import io.oscoin.util.TopList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class OsrankNaiveFileGraphApp {
 
     public long RANDOM_SEED = 842384239487239l;
 
     // Naive Osrank parameters
-    public static final int R = 1000;
+    public static final int R = 100;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
 
@@ -42,20 +46,47 @@ public class OsrankNaiveFileGraphApp {
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
-        System.out.println("Top nodes with Osranks:");
+        // Split results into Project Nodes and Account Nodes
         Map<Integer,Double> osrankMap = results.getOsrankMap();
-        TopList topList = new TopList(20);
+
+        Map<Integer, Double> projectNodesAndRanks = osrankMap.entrySet().stream()
+                .filter(entry -> graph.getNodeById(entry.getKey()) instanceof ProjectNode)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        Map<Integer, Double> accountNodesAndRanks = osrankMap.entrySet().stream()
+                .filter(entry -> graph.getNodeById(entry.getKey()) instanceof AccountNode)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        // Print Top Project Nodes
+        printTopNodes(graph, projectNodesAndRanks);
+
+        // Print Top Account Nodes
+        printTopNodes(graph, accountNodesAndRanks);
+    }
+
+    private void printTopNodes(Graph graph, Map<Integer,Double> osrankMap) {
+        TopList topList = new TopList(100);
         for (Map.Entry<Integer,Double> entry : osrankMap.entrySet()) {
             topList.tryToAdd(new OrderedPair<>(entry.getKey(), entry.getValue()));
         }
         List<OrderedPair<Integer,Double>> topNodesAndOsranks = topList.getTop();
+        System.out.println("Name, Id, Osrank");
+        Collections.reverse(topNodesAndOsranks);
         for (OrderedPair<Integer,Double> oneEntry : topNodesAndOsranks) {
-            System.out.println("Node ID = " + oneEntry.left + "    Osrank = " + oneEntry.right);
+            System.out.format("%s, %d, %.4f\n", graph.getNodeById(oneEntry.left).getNodeName(), oneEntry.left, oneEntry.right);
         }
+        System.out.println("");
     }
 
     public static void main(String[] args) {
 
+        long startTimestamp = System.currentTimeMillis();
         new OsrankNaiveFileGraphApp().runOsrankNaive();
+        long endTimestamp = System.currentTimeMillis();
+
+        long totalTime = endTimestamp - startTimestamp;
+        long totalSeconds = totalTime / 1000;
+
+        System.out.println("Run took " + totalSeconds + " seconds");
     }
 }

@@ -15,15 +15,12 @@ public class FileGraphLoaderTest {
         String dependenciesFilename = "./dependencies.csv";
         String contributionsFilename = "./contributions.csv";
 
-        Graph simpleGraph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename);
+        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename);
 
-        List<Node> nodes = simpleGraph.getAllNodes();
+        List<Node> nodes = graph.getAllNodes();
 
         // Check that there are lots of nodes
         System.out.println("Total nodes in graph " + nodes.size());
         assert(nodes.size() > 10000);
-
-        // Check some node specifics
-        System.out.println("Sum of edge probs for node 31115 is " + simpleGraph.getNodeById(31115).getSumOfEdgeProbabilities());
     }
 }

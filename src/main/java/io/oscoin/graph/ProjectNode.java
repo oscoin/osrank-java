@@ -32,6 +32,10 @@ public class ProjectNode extends Node {
         else contributorToContribCount.put(accountId, currentContributions.intValue() + numContributions.intValue());
     }
 
+    public Map<Integer,Integer> getContributorsMap() {
+        return contributorToContribCount;
+    }
+
     public void addProjectMaintainer(Integer maintainerId) {
         maintainers.add(maintainerId);
     }

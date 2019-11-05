@@ -18,8 +18,8 @@ public class OsrankNaiveRandomGraphApp {
     public long RANDOM_SEED = 842384239487239l;
 
     // Random project graph generation parameters
-    public int NUM_PROJECTS = 1000000;
-    public int NUM_EXTRA_ACCOUNTS = 2000000;
+    public int NUM_PROJECTS = 100000;
+    public int NUM_EXTRA_ACCOUNTS = 200000;
     int MAX_ADDITIONAL_PROJECTS_TO_CONTRIBUTE_TO = 10;
     int MAX_EXTRA_CONTRIBUTIONS_PER_PROJECT = 20;
 

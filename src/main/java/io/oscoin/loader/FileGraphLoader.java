@@ -8,8 +8,11 @@ import io.oscoin.graph.ProjectNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FileGraphLoader {
 
@@ -27,12 +30,16 @@ public class FileGraphLoader {
         // Add contributions to Graph
         FileGraphLoader.addContributionsToGraph(graph, contributionsFilename);
 
+        // Add maintainers to Graph
+        FileGraphLoader.addMaintainersToGraph(graph);
+
         // Preprocess
         graph.buildAndNormalizeAllNodes();
 
         return graph;
     }
 
+    // Create one ProjectNode for each line in the metadata CSV
     private static void addMetadataToGraph(Graph graph, String metadataFilename) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(metadataFilename));
@@ -52,11 +59,14 @@ public class FileGraphLoader {
                 line = reader.readLine();
             }
             reader.close();
+
+            System.out.println("# Projects From Metadata " + graph.getAllNodes().size());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Create a dependency link for each line in the CSV, if both nodes already exist
     private static void addDependenciesToGraph(Graph graph, String dependenciesFilename) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(dependenciesFilename));
@@ -82,13 +92,15 @@ public class FileGraphLoader {
             }
             reader.close();
 
-            System.out.println("Did not like dependencies " + numRejectedDependencies);
+            System.out.println("# Rejected Dependencies " + numRejectedDependencies);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
+    // Add a bi-directional contributor links for each line in CSV, if project exists
+    // Must create AccountNode for each new contributor
     private static void addContributionsToGraph(Graph graph, String contributionsFilename) {
         try {
             Map<String,AccountNode> contributorNameToNodeMap = new HashMap<>();
@@ -115,7 +127,7 @@ public class FileGraphLoader {
                     graph.addAccountNode(contributorNode);
                 }
 
-                // Add contributions to project's node, if it exists
+                // Add contributions to project's node, if project exists
                 projectNode = (ProjectNode) graph.getNodeById(projectId);
                 if (projectNode != null) {
                     projectNode.addProjectContributor(contributorNode.getNodeId(), numContributions);
@@ -128,11 +140,60 @@ public class FileGraphLoader {
                 line = reader.readLine();
             }
             reader.close();
+
+            System.out.println("# Contributors " + contributorNameToNodeMap.size());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Since we don't have maintainers information, we just pick the top contributor as a maintainer
+    // For projects that have no contributors, we invent a maintainer
+    private static void addMaintainersToGraph(Graph graph) {
+
+        Integer numMaintainersInvented = 0;
+
+        // Get only project nodes out of graph
+        List<ProjectNode> projectNodeList = graph
+            .getAllNodes()
+            .stream()
+            .filter(node -> node instanceof ProjectNode)
+            .map(node -> (ProjectNode) node)
+            .collect(Collectors.toList());
+
+        // Go through all projects and find a maintainer for each one
+        Map<Integer,Integer> contributorsMap;
+        AccountNode maintainer;
+        for (ProjectNode projectNode : projectNodeList) {
+            contributorsMap = projectNode.getContributorsMap();
+            if (contributorsMap.isEmpty()) {
+                // When there are no contributors, invent one.
+                maintainer = new AccountNode(-projectNode.getNodeId(), "Fake maintainer for " + projectNode.getNodeName());
+                graph.addAccountNode(maintainer);
+
+                // Add contribution links to fake maintainer
+                projectNode.addProjectContributor(maintainer.getNodeId(), 1); // Init with a single contribution.
+                maintainer.addProjectContributions(projectNode.getNodeId(), 1);
+
+                numMaintainersInvented++;
+            } else {
+                // When there are contributors, choose the one with the most contributions.
+                Map.Entry<Integer, Integer> maxContributor = Collections.max(
+                        projectNode.getContributorsMap().entrySet(),
+                        (Map.Entry<Integer, Integer> e1, Map.Entry<Integer, Integer> e2) -> e1.getValue().compareTo(e2.getValue())
+                );
+
+                maintainer = (AccountNode) graph.getNodeById(maxContributor.getKey());
+            }
+
+            // Add maintainer links
+            projectNode.addProjectMaintainer(maintainer.getNodeId());
+            maintainer.addProjectMaintained(projectNode.getNodeId());
+        }
+
+        System.out.println("# Invented Maintainers " + numMaintainersInvented);
+
+    }
 
 
 }
