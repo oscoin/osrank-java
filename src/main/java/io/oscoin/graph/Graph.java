@@ -32,4 +32,11 @@ public class Graph {
         idToNodeMap.put(accountNode.getNodeId(), accountNode);
         allNodes.add(accountNode);
     }
+
+    public void buildAndNormalizeAllNodes() {
+        for (Node node : allNodes) {
+            node.buildConnectedNodeProbs();
+            node.normalizeEdgeProbabilities();
+        }
+    }
 }

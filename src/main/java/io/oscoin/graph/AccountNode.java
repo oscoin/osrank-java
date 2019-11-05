@@ -14,10 +14,15 @@ public class AccountNode extends Node {
     private Set<Integer> projectsMaintained;
 
     public AccountNode(Integer nodeId) {
-        super(nodeId);
+        this(nodeId, null);
+    }
+
+    public AccountNode(Integer nodeId, String nodeName) {
+        super(nodeId, nodeName);
         projectToContribCount = new HashMap<>();
         projectsMaintained = new HashSet<>();
     }
+
 
     public void addProjectContributions(Integer projectId, Integer numContributions) {
         Integer currentContributions = projectToContribCount.get(projectId);
@@ -30,6 +35,8 @@ public class AccountNode extends Node {
     }
 
     public void buildConnectedNodeProbs() {
+        // Reset connected node probs in case this was called before
+        connectedNodeProbs.clear();
 
         // First get the total contrib count
         int totalContribs = 0;

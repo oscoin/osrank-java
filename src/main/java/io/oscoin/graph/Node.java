@@ -7,16 +7,24 @@ import java.util.List;
 public abstract class Node {
 
     private Integer nodeId;
+    private String nodeName;
     protected List<OrderedPair<Double,Integer>> connectedNodeProbs;
 
     public Node(Integer nodeId) {
+        this(nodeId, null);
+    }
+
+    public Node(Integer nodeId, String nodeName) {
         this.nodeId = nodeId;
+        this.nodeName = nodeName;
         connectedNodeProbs = new ArrayList<>();
     }
 
     public Integer getNodeId() {
         return nodeId;
     }
+
+    public String getNodeName() { return nodeName; }
 
     public int getConnectedNodeCount() {
         return connectedNodeProbs.size();
@@ -48,7 +56,7 @@ public abstract class Node {
             if (probability <= 0) return oneProbability.right;
         }
 
-        throw new RuntimeException("Edge probability values sum to less than 1. Perhaps they were not normalized?");
+        throw new RuntimeException("Edge probability values sum to less than 1. Perhaps they were not normalized? " + nodeId);
     }
 
     public abstract void buildConnectedNodeProbs();

@@ -16,7 +16,11 @@ public class ProjectNode extends Node {
     private List<Integer> dependencies;
 
     public ProjectNode(Integer nodeId) {
-        super(nodeId);
+        this(nodeId, null);
+    }
+
+    public ProjectNode(Integer nodeId, String nodeName) {
+        super(nodeId, nodeName);
         contributorToContribCount = new HashMap<>();
         maintainers = new ArrayList<>();
         dependencies = new ArrayList<>();
@@ -35,6 +39,8 @@ public class ProjectNode extends Node {
     public void addProjectDependency(Integer dependencyId) {dependencies.add(dependencyId); }
 
     public void buildConnectedNodeProbs() {
+        // Reset connected node probs in case this was called before
+        connectedNodeProbs.clear();
 
         // First get the total contrib count
         int totalContribs = 0;
