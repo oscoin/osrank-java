@@ -78,7 +78,7 @@ public class ProjectNode extends Node {
         // Finally add the contrib links weighted by count
         for (Map.Entry<Integer,Integer> projectAndContribCount : contributorToContribCount.entrySet()) {
             double contribs = (double) projectAndContribCount.getValue();
-            double weight = 1d * contribs / totalContribs;
+            double weight = (1d / 7d) * contribs / totalContribs;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, projectAndContribCount.getKey());
             connectedNodeProbs.add(weightAndProjectId);
         }
