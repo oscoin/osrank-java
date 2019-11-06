@@ -46,7 +46,8 @@ public class OsrankNaiveFileGraphApp {
         Graph graph = FileGraphLoader.load(
             METADATA_FILE_PATH,
             DEPENDENCIES_FILE_PATH,
-            CONTRIBUTIONS_FILE_PATH);
+            CONTRIBUTIONS_FILE_PATH,
+            true);
         Random random = new Random(RANDOM_SEED);
         System.out.println("Done");
 

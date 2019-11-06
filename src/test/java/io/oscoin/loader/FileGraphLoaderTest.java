@@ -15,7 +15,7 @@ public class FileGraphLoaderTest {
         String dependenciesFilename = "./dependencies.csv";
         String contributionsFilename = "./contributions.csv";
 
-        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename);
+        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename, true);
 
         List<Node> nodes = graph.getAllNodes();
 

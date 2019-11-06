@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class FileGraphLoader {
 
-    public static Graph load(String metadataFilename, String dependenciesFilename, String contributionsFilename) {
+    public static Graph load(String metadataFilename, String dependenciesFilename, String contributionsFilename, Boolean addMaintainers) {
 
         Graph graph = new Graph();
 
@@ -37,7 +37,9 @@ public class FileGraphLoader {
         FileGraphLoader.addContributionsToGraph(graph, contributionsFilename);
 
         // Add maintainers to Graph
-        FileGraphLoader.addMaintainersToGraph(graph);
+        if (addMaintainers) {
+            FileGraphLoader.addMaintainersToGraph(graph);
+        }
 
         // Preprocess
         graph.buildAndNormalizeAllNodes();
