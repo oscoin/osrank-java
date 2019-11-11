@@ -7,6 +7,7 @@ import io.oscoin.graph.Graph;
 import io.oscoin.loader.RandomGraphLoader;
 import io.oscoin.loader.SimpleGraphLoader;
 import io.oscoin.util.OrderedPair;
+import io.oscoin.util.Timer;
 import io.oscoin.util.TopList;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class OsrankNaiveRandomGraphApp {
     public OsrankNaiveRandomGraphApp() {
     }
 
-    private void runOsrankNaive() {
+    private void runOsrankNaive(OsrankParams osrankParams) {
 
         System.out.println("Building random graph....");
         Random random = new Random(RANDOM_SEED);
@@ -49,10 +50,8 @@ public class OsrankNaiveRandomGraphApp {
                 random);
         System.out.println("Done");
 
-        OsrankParams params = new OsrankParams(R, PROJECT_DAMPING_FACTOR, ACCOUNT_DAMPING_FACTOR);
-
         System.out.println("Starting naive algorithm....");
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(params, randomGraph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, randomGraph, random);
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
@@ -70,14 +69,24 @@ public class OsrankNaiveRandomGraphApp {
 
     public static void main(String[] args) {
 
-        long startTimestamp = System.currentTimeMillis();
-        new OsrankNaiveRandomGraphApp().runOsrankNaive();
-        long endTimestamp = System.currentTimeMillis();
+        long totalSeconds = Timer.getElapsedSeconds(() -> {
+            // default params
+            OsrankParams osrankDefaultParams = new OsrankParams(
+                    R,
+                    PROJECT_DAMPING_FACTOR,
+                    ACCOUNT_DAMPING_FACTOR,
+                    null,
+                    null,
+                    null,
+                    null);
 
-        long totalTime = endTimestamp - startTimestamp;
-        long totalSeconds = totalTime / 1000;
+            // overwrite with command-line options
+            OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
+
+            // run app
+            new OsrankNaiveRandomGraphApp().runOsrankNaive(osrankParams);
+        });
 
         System.out.println("Run took " + totalSeconds + " seconds");
-
     }
 }

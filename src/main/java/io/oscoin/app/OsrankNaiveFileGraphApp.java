@@ -8,6 +8,7 @@ import io.oscoin.graph.Graph;
 import io.oscoin.graph.ProjectNode;
 import io.oscoin.loader.FileGraphLoader;
 import io.oscoin.util.OrderedPair;
+import io.oscoin.util.Timer;
 import io.oscoin.util.TopList;
 
 import java.util.Collections;
@@ -26,35 +27,37 @@ public class OsrankNaiveFileGraphApp {
 
     // Random seed to use
     public long RANDOM_SEED = 842384239487239l;
+    public int MAX_WINNERS_TO_DISPLAY = 100;
 
     // Naive Osrank parameters
-    public static final int R = 100;
+    public static final int R = 1000;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
-
-    // File paths to load graph of projects and accounts from
     public static final String METADATA_FILE_PATH = "./metadata.csv";
     public static final String DEPENDENCIES_FILE_PATH = "./dependencies.csv";
-    public static final String CONTRIBUTIONS_FILE_PATH = "./contributions.csv";
+    public static final String CONTRIBUTIONS_FILE_PATH = null;
+    public static final Boolean ADD_MAINTAINERS = false;
 
     public OsrankNaiveFileGraphApp() {
     }
 
-    private void runOsrankNaive() {
+    private void runOsrankNaive(OsrankParams osrankParams) {
+
+        System.out.println("Using params....");
+        System.out.println(osrankParams.toString());
+
 
         System.out.println("Loading graph....");
         Graph graph = FileGraphLoader.load(
-            METADATA_FILE_PATH,
-            DEPENDENCIES_FILE_PATH,
-            CONTRIBUTIONS_FILE_PATH,
-            true);
+            osrankParams.getMetadataFilePath(),
+            osrankParams.getDependenciesFilePath(),
+            osrankParams.getContributionsFilePath(),
+            osrankParams.getAddMaintainersFlag());
         Random random = new Random(RANDOM_SEED);
         System.out.println("Done");
 
-        OsrankParams params = new OsrankParams(R, PROJECT_DAMPING_FACTOR, ACCOUNT_DAMPING_FACTOR);
-
         System.out.println("Starting naive algorithm....");
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(params, graph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, graph, random);
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
@@ -70,14 +73,15 @@ public class OsrankNaiveFileGraphApp {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         // Print Top Project Nodes
-        printTopNodes(graph, projectNodesAndRanks);
+        printTopNodes(graph, projectNodesAndRanks, MAX_WINNERS_TO_DISPLAY);
 
         // Print Top Account Nodes
-        printTopNodes(graph, accountNodesAndRanks);
+        printTopNodes(graph, accountNodesAndRanks, MAX_WINNERS_TO_DISPLAY);
     }
 
-    private void printTopNodes(Graph graph, Map<Integer,Double> osrankMap) {
-        TopList topList = new TopList(100);
+    // Helper function to output only the top N nodes to the screen
+    private void printTopNodes(Graph graph, Map<Integer,Double> osrankMap, int N) {
+        TopList topList = new TopList(N);
         for (Map.Entry<Integer,Double> entry : osrankMap.entrySet()) {
             topList.tryToAdd(new OrderedPair<>(entry.getKey(), entry.getValue()));
         }
@@ -90,15 +94,28 @@ public class OsrankNaiveFileGraphApp {
         System.out.println("");
     }
 
+
     public static void main(String[] args) {
 
-        long startTimestamp = System.currentTimeMillis();
-        new OsrankNaiveFileGraphApp().runOsrankNaive();
-        long endTimestamp = System.currentTimeMillis();
+        long totalSeconds = Timer.getElapsedSeconds(() -> {
+            // default params
+            OsrankParams osrankDefaultParams = new OsrankParams(
+                    R,
+                    PROJECT_DAMPING_FACTOR,
+                    ACCOUNT_DAMPING_FACTOR,
+                    METADATA_FILE_PATH,
+                    DEPENDENCIES_FILE_PATH,
+                    CONTRIBUTIONS_FILE_PATH,
+                    ADD_MAINTAINERS);
 
-        long totalTime = endTimestamp - startTimestamp;
-        long totalSeconds = totalTime / 1000;
+            // overwrite with command-line options
+            OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
+
+            // run app
+            new OsrankNaiveFileGraphApp().runOsrankNaive(osrankParams);
+        });
 
         System.out.println("Run took " + totalSeconds + " seconds");
     }
+
 }

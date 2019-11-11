@@ -5,6 +5,7 @@ import io.oscoin.algo.OsrankParams;
 import io.oscoin.algo.OsrankResults;
 import io.oscoin.graph.Graph;
 import io.oscoin.loader.SimpleGraphLoader;
+import io.oscoin.util.Timer;
 
 import java.util.Map;
 import java.util.Random;
@@ -24,13 +25,12 @@ public class OsrankNaiveSimpleGraphApp {
     public OsrankNaiveSimpleGraphApp() {
     }
 
-    private void runOsrankNaive() {
+    private void runOsrankNaive(OsrankParams osrankParams) {
 
-        OsrankParams params = new OsrankParams(R, PROJECT_DAMPING_FACTOR, ACCOUNT_DAMPING_FACTOR);
         Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
         Random random = new Random(RANDOM_SEED);
 
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(params, simpleGraph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, simpleGraph, random);
 
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
 
@@ -44,6 +44,19 @@ public class OsrankNaiveSimpleGraphApp {
 
     public static void main(String[] args) {
 
-        new OsrankNaiveSimpleGraphApp().runOsrankNaive();
+        OsrankParams osrankDefaultParams = new OsrankParams(
+                R,
+                PROJECT_DAMPING_FACTOR,
+                ACCOUNT_DAMPING_FACTOR,
+                null,
+                null,
+                null,
+                null);
+
+        // overwrite with command-line options
+        OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
+
+        // run app
+        new OsrankNaiveSimpleGraphApp().runOsrankNaive(osrankParams);
     }
 }
