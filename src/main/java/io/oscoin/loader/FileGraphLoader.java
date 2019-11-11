@@ -28,13 +28,13 @@ public class FileGraphLoader {
         Graph graph = new Graph();
 
         // Add project metadata to Graph
-        FileGraphLoader.addMetadataToGraph(graph, metadataFilename);
+        if (metadataFilename != null) FileGraphLoader.addMetadataToGraph(graph, metadataFilename);
 
         // Add project dependencies to Graph
-        FileGraphLoader.addDependenciesToGraph(graph, dependenciesFilename);
+        if (dependenciesFilename != null) FileGraphLoader.addDependenciesToGraph(graph, dependenciesFilename);
 
         // Add contributions to Graph
-        FileGraphLoader.addContributionsToGraph(graph, contributionsFilename);
+        if (contributionsFilename != null) FileGraphLoader.addContributionsToGraph(graph, contributionsFilename);
 
         // Add maintainers to Graph
         if (addMaintainers) {

@@ -41,6 +41,8 @@ public class ProjectNode extends Node {
         return contributorToContribCount;
     }
 
+    public List<Integer> getDependencies() { return dependencies; }
+
     public void addProjectMaintainer(Integer maintainerId) {
         maintainers.add(maintainerId);
     }
