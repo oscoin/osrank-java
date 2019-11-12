@@ -15,12 +15,11 @@ import java.util.Random;
  */
 public class OsrankNaiveSimpleGraphApp {
 
-    public static final long RANDOM_SEED = 842384239487239l;
-
     // Naive Osrank parameters
     public static final int R = 10000;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
+    public static final long RANDOM_SEED = 842384239487239l;
 
     public OsrankNaiveSimpleGraphApp() {
     }
@@ -28,9 +27,8 @@ public class OsrankNaiveSimpleGraphApp {
     private void runOsrankNaive(OsrankParams osrankParams) {
 
         Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
-        Random random = new Random(RANDOM_SEED);
 
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, simpleGraph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, simpleGraph);
 
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
 
@@ -51,7 +49,8 @@ public class OsrankNaiveSimpleGraphApp {
                 null,
                 null,
                 null,
-                null);
+                null,
+                RANDOM_SEED);
 
         // overwrite with command-line options
         OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);

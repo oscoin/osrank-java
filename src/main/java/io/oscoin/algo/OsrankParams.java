@@ -29,6 +29,10 @@ public class OsrankParams {
     // Flag if we want to impute/invent maintainers or not
     private Boolean addMaintainersFlag = null;
 
+    // Seed to use for generating randomnesss
+    private Long randomSeed = null;
+
+
     public OsrankParams() {
     }
 
@@ -39,7 +43,8 @@ public class OsrankParams {
             String metadataFilePath,
             String dependenciesFilePath,
             String contributionsFilePath,
-            Boolean addMaintainersFlag) {
+            Boolean addMaintainersFlag,
+            Long randomSeed) {
         this.R = R;
         this.projectDampingFactor = projectDampingFactor;
         this.accountDampingFactor = accountDampingFactor;
@@ -47,6 +52,7 @@ public class OsrankParams {
         this.dependenciesFilePath = dependenciesFilePath;
         this.contributionsFilePath = contributionsFilePath;
         this.addMaintainersFlag = addMaintainersFlag;
+        this.randomSeed = randomSeed;
     }
 
     public int getR() {
@@ -77,9 +83,16 @@ public class OsrankParams {
         return addMaintainersFlag;
     }
 
+    public Long getRandomSeed() {
+        return (randomSeed != null) ? randomSeed.longValue() : 0;
+    }
+
+    /**
+     * @return Pretty string representation of parameter set
+     */
     public String toString() {
-        return String.format("R:%s,\nprojectDampingFactor:%s,\naccountDampingFactor:%s,\nmetadataFilePath:%s,\ndependenciesFilePath:%s,\ncontributionsFilePath:%s,\naddMaintainersFlag:%s\n",
-                this.getR(), this.getProjectDampingFactor(), this.getAccountDampingFactor(), this.getMetadataFilePath(), this.getDependenciesFilePath(), this.getContributionsFilePath(), this.getAddMaintainersFlag());
+        return String.format("R:%s,\nprojectDampingFactor:%s,\naccountDampingFactor:%s,\nmetadataFilePath:%s,\ndependenciesFilePath:%s,\ncontributionsFilePath:%s,\naddMaintainersFlag:%s,\nrandomSeed:%s\n",
+            this.getR(), this.getProjectDampingFactor(), this.getAccountDampingFactor(), this.getMetadataFilePath(), this.getDependenciesFilePath(), this.getContributionsFilePath(), this.getAddMaintainersFlag(), this.getRandomSeed());
     }
 
     // TODO method to fail if mandatory parameter is missing
@@ -97,6 +110,7 @@ public class OsrankParams {
         String dependenciesFilePath = commandLineParams.getDependenciesFilePath() != null ? commandLineParams.getDependenciesFilePath() : defaultOsRankParams.getDependenciesFilePath();
         String contributionsFilePath = commandLineParams.getContributionsFilePath() != null ? commandLineParams.getContributionsFilePath() : defaultOsRankParams.getContributionsFilePath();
         Boolean addMaintainersFlag = commandLineParams.getAddMaintainersFlag() != null ? commandLineParams.getAddMaintainersFlag() : defaultOsRankParams.getAddMaintainersFlag();
+        Long randomSeed = commandLineParams.getRandomSeed() > 0 ? commandLineParams.getRandomSeed() : defaultOsRankParams.getRandomSeed();
 
         // Create a new object with the merged params.
         return new OsrankParams(
@@ -106,7 +120,8 @@ public class OsrankParams {
             metadataFilePath,
             dependenciesFilePath,
             contributionsFilePath,
-            addMaintainersFlag);
+            addMaintainersFlag,
+            randomSeed);
     }
 
     // Factory method to generate params object from command-line values.

@@ -21,8 +21,6 @@ import java.util.Random;
  */
 public class OsrankNaiveRandomGraphApp {
 
-    public long RANDOM_SEED = 842384239487239l;
-
     // Random project graph generation parameters
     public int NUM_PROJECTS = 100000;
     public int NUM_EXTRA_ACCOUNTS = 200000;
@@ -33,6 +31,8 @@ public class OsrankNaiveRandomGraphApp {
     public static final int R = 100;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
+    public static final long RANDOM_SEED = 842384239487239l;
+
 
     public OsrankNaiveRandomGraphApp() {
     }
@@ -40,7 +40,7 @@ public class OsrankNaiveRandomGraphApp {
     private void runOsrankNaive(OsrankParams osrankParams) {
 
         System.out.println("Building random graph....");
-        Random random = new Random(RANDOM_SEED);
+        Random random = new Random(osrankParams.getRandomSeed());
         Graph randomGraph =
             RandomGraphLoader.buildRandomlyGenerattedGraph(
                 NUM_PROJECTS,
@@ -51,7 +51,7 @@ public class OsrankNaiveRandomGraphApp {
         System.out.println("Done");
 
         System.out.println("Starting naive algorithm....");
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, randomGraph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, randomGraph);
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
@@ -78,7 +78,8 @@ public class OsrankNaiveRandomGraphApp {
                     null,
                     null,
                     null,
-                    null);
+                    null,
+                    RANDOM_SEED);
 
             // overwrite with command-line options
             OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);

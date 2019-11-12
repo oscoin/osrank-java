@@ -3,20 +3,10 @@ package io.oscoin.app;
 import io.oscoin.algo.OsrankNaiveRun;
 import io.oscoin.algo.OsrankParams;
 import io.oscoin.algo.OsrankResults;
-import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
-import io.oscoin.graph.ProjectNode;
 import io.oscoin.loader.FileGraphLoader;
-import io.oscoin.util.OrderedPair;
 import io.oscoin.util.OutputUtils;
 import io.oscoin.util.Timer;
-import io.oscoin.util.TopList;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Application class that runs naive Osrank on graphs from the "ecosystem" files in the osrank-rs-ecosystem repository
@@ -26,8 +16,6 @@ import java.util.stream.Collectors;
  */
 public class OsrankNaiveFileGraphApp {
 
-    // Random seed to use
-    public long RANDOM_SEED = 842384239487239l;
     public int MAX_WINNERS_TO_DISPLAY = 100;
 
     // Naive Osrank parameters
@@ -38,6 +26,7 @@ public class OsrankNaiveFileGraphApp {
     public static final String DEPENDENCIES_FILE_PATH = "./dependencies.csv";
     public static final String CONTRIBUTIONS_FILE_PATH = "./contributions.csv";
     public static final Boolean ADD_MAINTAINERS = false;
+    public static final long RANDOM_SEED = 842384239487239l;
 
     public OsrankNaiveFileGraphApp() {
     }
@@ -53,11 +42,10 @@ public class OsrankNaiveFileGraphApp {
             osrankParams.getDependenciesFilePath(),
             osrankParams.getContributionsFilePath(),
             osrankParams.getAddMaintainersFlag());
-        Random random = new Random(RANDOM_SEED);
         System.out.println("Done");
 
         System.out.println("Starting naive algorithm....");
-        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, graph, random);
+        OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, graph);
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
@@ -82,7 +70,8 @@ public class OsrankNaiveFileGraphApp {
                     METADATA_FILE_PATH,
                     DEPENDENCIES_FILE_PATH,
                     CONTRIBUTIONS_FILE_PATH,
-                    ADD_MAINTAINERS);
+                    ADD_MAINTAINERS,
+                    RANDOM_SEED);
 
             // overwrite with command-line options
             OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);

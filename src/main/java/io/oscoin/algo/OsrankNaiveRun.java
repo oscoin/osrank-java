@@ -19,10 +19,10 @@ public class OsrankNaiveRun {
     private Graph graph;
     private Random random;
 
-    public OsrankNaiveRun(OsrankParams osrankParams, Graph graph, Random random) {
+    public OsrankNaiveRun(OsrankParams osrankParams, Graph graph) {
         this.osrankParams = osrankParams;
         this.graph = graph;
-        this.random = random;
+        this.random = new Random(osrankParams.getRandomSeed());
     }
 
     /**
