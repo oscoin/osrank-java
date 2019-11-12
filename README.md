@@ -32,7 +32,16 @@ the values of the various constants.
 
 9. You're all set up -- enjoy!
 
+## How To Run One Of The Apps From The Command line
 
+1. Add a JAR as a "Build Artifact" to your Project Structure
+https://stackoverflow.com/questions/1082580/how-to-build-jars-from-intellij-properly/45303637#45303637
+
+2. Build the JAR
+Build -> BuildProject or Build -> Artifacts
+
+3. Run from command line:
+`java -jar out/artifacts/osrank_jar/osrank.jar metadataFilePath=./metadata.csv dependenciesFilePath=./dependencies.csv contributionsFilePath=./contributions.csv`
 
 
 

@@ -95,7 +95,50 @@ public class OsrankParams {
             this.getR(), this.getProjectDampingFactor(), this.getAccountDampingFactor(), this.getMetadataFilePath(), this.getDependenciesFilePath(), this.getContributionsFilePath(), this.getAddMaintainersFlag(), this.getRandomSeed());
     }
 
-    // TODO method to fail if mandatory parameter is missing
+    /**
+     * Validates parameters, outputs messages to console for invalid parameters
+     * @return True if params are valid, False otherwise
+     */
+    public boolean validate() {
+        boolean valid = true;
+
+        if (null == R) {
+            valid = false;
+            System.out.println("Missing parameter: R");
+        }
+
+        if (null == projectDampingFactor) {
+            valid = false;
+            System.out.println("Missing parameter: projectDampingFactor");
+        }
+
+        if (null == accountDampingFactor) {
+            valid = false;
+            System.out.println("Missing parameter: accountDampingFactor");
+        }
+
+        if (null == metadataFilePath) {
+            valid = false;
+            System.out.println("Missing parameter: metadataFilePath");
+        }
+
+        if (null == dependenciesFilePath) {
+            valid = false;
+            System.out.println("Missing parameter: dependenciesFilePath");
+        }
+
+        if (null == addMaintainersFlag) {
+            valid = false;
+            System.out.println("Missing parameter: addMaintainersFlag");
+        }
+
+        if (null == randomSeed) {
+            valid = false;
+            System.out.println("Missing parameter: randomSeed");
+        }
+
+        return valid;
+    }
 
     // Factory method to combine default parameter values and command-line parameter values.
     // Command-line values take precedence.

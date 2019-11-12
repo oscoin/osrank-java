@@ -16,15 +16,15 @@ import io.oscoin.util.Timer;
  */
 public class OsrankNaiveFileGraphApp {
 
-    public int MAX_WINNERS_TO_DISPLAY = 100;
+    public int MAX_WINNERS_TO_DISPLAY = 0;
 
     // Naive Osrank parameters
     public static final int R = 1000;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
-    public static final String METADATA_FILE_PATH = "./metadata.csv";
-    public static final String DEPENDENCIES_FILE_PATH = "./dependencies.csv";
-    public static final String CONTRIBUTIONS_FILE_PATH = "./contributions.csv";
+    public static final String METADATA_FILE_PATH = null;
+    public static final String DEPENDENCIES_FILE_PATH = null;
+    public static final String CONTRIBUTIONS_FILE_PATH = null;
     public static final Boolean ADD_MAINTAINERS = false;
     public static final long RANDOM_SEED = 842384239487239l;
 
@@ -54,7 +54,9 @@ public class OsrankNaiveFileGraphApp {
         OutputUtils.writeResultsToCSV(results, graph,false, 0, "./results/results-projects-all.csv");
 
         // Output results to screen
-        OutputUtils.outputResults(results, graph,false, MAX_WINNERS_TO_DISPLAY);
+        if (MAX_WINNERS_TO_DISPLAY > 0 ) {
+            OutputUtils.outputResults(results, graph, false, MAX_WINNERS_TO_DISPLAY);
+        }
     }
 
 
@@ -76,8 +78,13 @@ public class OsrankNaiveFileGraphApp {
             // overwrite with command-line options
             OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
 
-            // run app
-            new OsrankNaiveFileGraphApp().runOsrankNaive(osrankParams);
+            if (osrankParams.validate()) {
+                // run app
+                new OsrankNaiveFileGraphApp().runOsrankNaive(osrankParams);
+            } else {
+                System.out.println("Please add mandatory parameters and come again.");
+            }
+
         });
 
         System.out.println("Run took " + totalSeconds + " seconds");
