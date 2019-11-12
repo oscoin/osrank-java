@@ -8,6 +8,7 @@ import io.oscoin.graph.Graph;
 import io.oscoin.graph.ProjectNode;
 import io.oscoin.loader.FileGraphLoader;
 import io.oscoin.util.OrderedPair;
+import io.oscoin.util.OutputUtils;
 import io.oscoin.util.Timer;
 import io.oscoin.util.TopList;
 
@@ -35,7 +36,7 @@ public class OsrankNaiveFileGraphApp {
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
     public static final String METADATA_FILE_PATH = "./metadata.csv";
     public static final String DEPENDENCIES_FILE_PATH = "./dependencies.csv";
-    public static final String CONTRIBUTIONS_FILE_PATH = null;
+    public static final String CONTRIBUTIONS_FILE_PATH = "./contributions.csv";
     public static final Boolean ADD_MAINTAINERS = false;
 
     public OsrankNaiveFileGraphApp() {
@@ -45,7 +46,6 @@ public class OsrankNaiveFileGraphApp {
 
         System.out.println("Using params....");
         System.out.println(osrankParams.toString());
-
 
         System.out.println("Loading graph....");
         Graph graph = FileGraphLoader.load(
@@ -61,38 +61,14 @@ public class OsrankNaiveFileGraphApp {
         OsrankResults results = osrankNaiveRun.runNaiveOsrankAlgorithm();
         System.out.println("Done");
 
-        // Split results into Project Nodes and Account Nodes
-        Map<Integer,Double> osrankMap = results.getOsrankMap();
+        // Write results to file
+        OutputUtils.writeResultsToCSV(results, graph,false, 1000, "./results/results-projects-1000.csv");
+        OutputUtils.writeResultsToCSV(results, graph,false, 0, "./results/results-projects-all.csv");
 
-        Map<Integer, Double> projectNodesAndRanks = osrankMap.entrySet().stream()
-                .filter(entry -> graph.getNodeById(entry.getKey()) instanceof ProjectNode)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        Map<Integer, Double> accountNodesAndRanks = osrankMap.entrySet().stream()
-                .filter(entry -> graph.getNodeById(entry.getKey()) instanceof AccountNode)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        // Print Top Project Nodes
-        printTopNodes(graph, projectNodesAndRanks, MAX_WINNERS_TO_DISPLAY);
-
-        // Print Top Account Nodes
-        printTopNodes(graph, accountNodesAndRanks, MAX_WINNERS_TO_DISPLAY);
+        // Output results to screen
+        OutputUtils.outputResults(results, graph,false, MAX_WINNERS_TO_DISPLAY);
     }
 
-    // Helper function to output only the top N nodes to the screen
-    private void printTopNodes(Graph graph, Map<Integer,Double> osrankMap, int N) {
-        TopList topList = new TopList(N);
-        for (Map.Entry<Integer,Double> entry : osrankMap.entrySet()) {
-            topList.tryToAdd(new OrderedPair<>(entry.getKey(), entry.getValue()));
-        }
-        List<OrderedPair<Integer,Double>> topNodesAndOsranks = topList.getTop();
-        System.out.println("Name, Id, Osrank");
-        Collections.reverse(topNodesAndOsranks);
-        for (OrderedPair<Integer,Double> oneEntry : topNodesAndOsranks) {
-            System.out.format("%s, %d, %.4f\n", graph.getNodeById(oneEntry.left).getNodeName(), oneEntry.left, oneEntry.right);
-        }
-        System.out.println("");
-    }
 
 
     public static void main(String[] args) {
