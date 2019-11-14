@@ -57,7 +57,15 @@ public abstract class Node {
         throw new RuntimeException("Edge probability values sum to less than 1. Perhaps they were not normalized? " + nodeId);
     }
 
-    public abstract void buildConnectedNodeProbs();
+    /**
+     * Build probabilities for edges.
+     */
+    public abstract void buildConnectedNodeProbs(
+            int projectDependencyWeight,
+            int projectMaintainerWeight,
+            int projectContributionWeight,
+            int accountMaintainerWeight,
+            int accountContributionWeight);
 
     /**
      * Calling this "method normalizes" the edges in connectedNodeProbs so that all of double values in the

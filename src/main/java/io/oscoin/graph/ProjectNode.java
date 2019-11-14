@@ -49,10 +49,23 @@ public class ProjectNode extends Node {
 
     public void addProjectDependency(Integer dependencyId) {dependencies.add(dependencyId); }
 
-    public void buildConnectedNodeProbs() {
-
+    /**
+     * Use the given relative weights to build node probabilities.
+     */
+    public void buildConnectedNodeProbs(
+            int projectDependencyWeight,
+            int projectMaintainerWeight,
+            int projectContributionWeight,
+            int accountMaintainerWeight,
+            int accountContributionWeight) {
         // Clear connected node probs in case this method was called before
         connectedNodeProbs.clear();
+
+        // Convert project weights into ratios, ignore account weights
+        double totalWeight = projectDependencyWeight + projectMaintainerWeight + projectContributionWeight;
+        double dependencyRatio = projectDependencyWeight / totalWeight;
+        double maintainerRatio = projectMaintainerWeight / totalWeight;
+        double contributionRatio = projectContributionWeight / totalWeight;
 
         // First get the total contrib count
         int totalContribs = 0;
@@ -64,7 +77,7 @@ public class ProjectNode extends Node {
         // Now build the dependency links
         double numDependencies = (double) dependencies.size();
         for (Integer dependencyId : dependencies) {
-            double weight = (4d / 7d) / (numDependencies);
+            double weight = dependencyRatio / numDependencies;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, dependencyId);
             connectedNodeProbs.add(weightAndProjectId);
         }
@@ -72,7 +85,7 @@ public class ProjectNode extends Node {
         // Now add the maintainer links
         double numMaintainers = (double) maintainers.size();
         for (Integer maintainerId : maintainers) {
-            double weight = (2d / 7d) / (numMaintainers);
+            double weight = maintainerRatio / numMaintainers;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, maintainerId);
             connectedNodeProbs.add(weightAndProjectId);
         }
@@ -80,7 +93,7 @@ public class ProjectNode extends Node {
         // Finally add the contrib links weighted by count
         for (Map.Entry<Integer,Integer> projectAndContribCount : contributorToContribCount.entrySet()) {
             double contribs = (double) projectAndContribCount.getValue();
-            double weight = (1d / 7d) * contribs / totalContribs;
+            double weight = contributionRatio * contribs / totalContribs;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, projectAndContribCount.getKey());
             connectedNodeProbs.add(weightAndProjectId);
         }

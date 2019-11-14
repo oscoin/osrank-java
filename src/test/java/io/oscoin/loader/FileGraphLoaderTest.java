@@ -1,5 +1,6 @@
 package io.oscoin.loader;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
 import io.oscoin.graph.ProjectNode;
@@ -15,7 +16,21 @@ public class FileGraphLoaderTest {
 
         String metadataFilename = "./metadata.csv";
 
-        Graph graph = FileGraphLoader.load(metadataFilename, null, null, false);
+        Graph graph = FileGraphLoader.load(new OsrankParams(
+                null,
+                null,
+                null,
+                metadataFilename,
+                null,
+                null,
+                null,
+                false,
+                null,
+                4,
+                2,
+                1,
+                3,
+                2));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();
@@ -29,7 +44,21 @@ public class FileGraphLoaderTest {
         String metadataFilename = "./metadata.csv";
         String dependenciesFilename = "./dependencies.csv";
 
-        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, null, false);
+        Graph graph = FileGraphLoader.load(new OsrankParams(
+                null,
+                null,
+                null,
+                metadataFilename,
+                dependenciesFilename,
+                null,
+                null,
+                false,
+                null,
+                4,
+                2,
+                1,
+                3,
+                2));
 
         // Check that there are lots of dependencies
         Integer numTotalDependencies = graph
@@ -51,7 +80,21 @@ public class FileGraphLoaderTest {
         String dependenciesFilename = "./dependencies.csv";
         String contributionsFilename = "./contributions.csv";
 
-        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename, false);
+        Graph graph = FileGraphLoader.load(new OsrankParams(
+                null,
+                null,
+                null,
+                metadataFilename,
+                dependenciesFilename,
+                contributionsFilename,
+                null,
+                false,
+                null,
+                4,
+                2,
+                1,
+                3,
+                2));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();
@@ -66,7 +109,21 @@ public class FileGraphLoaderTest {
         String dependenciesFilename = "./dependencies.csv";
         String contributionsFilename = "./contributions.csv";
 
-        Graph graph = FileGraphLoader.load(metadataFilename, dependenciesFilename, contributionsFilename, true);
+        Graph graph = FileGraphLoader.load(new OsrankParams(
+                null,
+                null,
+                null,
+                metadataFilename,
+                dependenciesFilename,
+                contributionsFilename,
+                null,
+                true,
+                null,
+                4,
+                2,
+                1,
+                3,
+                2));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();

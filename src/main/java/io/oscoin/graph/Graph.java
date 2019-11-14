@@ -37,9 +37,20 @@ public class Graph {
         allNodes.add(accountNode);
     }
 
-    public void buildAndNormalizeAllNodes() {
+    public void buildAndNormalizeAllNodes(
+        int projectDependencyWeight,
+        int projectMaintainerWeight,
+        int projectContributionWeight,
+        int accountMaintainerWeight,
+        int accountContributionWeight) {
         for (Node node : allNodes) {
-            node.buildConnectedNodeProbs();
+            node.buildConnectedNodeProbs(
+                projectDependencyWeight,
+                projectMaintainerWeight,
+                projectContributionWeight,
+                accountMaintainerWeight,
+                accountContributionWeight);
+
             node.normalizeEdgeProbabilities();
         }
     }

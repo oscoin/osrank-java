@@ -39,21 +39,31 @@ public class AccountNode extends Node {
         projectsMaintained.add(projectId);
     }
 
-    public void buildConnectedNodeProbs() {
+    public void buildConnectedNodeProbs(
+            int projectDependencyWeight,
+            int projectMaintainerWeight,
+            int projectContributionWeight,
+            int accountMaintainerWeight,
+            int accountContributionWeight) {
+
         // Reset connected node probs in case this was called before
         connectedNodeProbs.clear();
+
+        // Convert account weights into ratios; Ignore project weights
+        double totalWeight = accountMaintainerWeight + accountContributionWeight;
+        double maintainerRatio = accountMaintainerWeight / totalWeight;
+        double contributionRatio = accountContributionWeight / totalWeight;
 
         // First get the total contrib count
         int totalContribs = 0;
         for (Integer count : projectToContribCount.values()) {
             totalContribs += count.intValue();
         }
-        double totalContribsDouble = (double) totalContribs;
 
         // Now add the contrib links weighted by count
         for (Map.Entry<Integer,Integer> projectAndContribCount : projectToContribCount.entrySet()) {
             double contribs = (double) projectAndContribCount.getValue();
-            double weight = 2d * contribs / totalContribs;
+            double weight = contributionRatio * contribs / totalContribs;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, projectAndContribCount.getKey());
             connectedNodeProbs.add(weightAndProjectId);
         }
@@ -67,7 +77,7 @@ public class AccountNode extends Node {
             if (contribsInteger == null) contribs = 1;
             else contribs = (double) contribsInteger;
 
-            double weight = 3d * contribs / totalContribs;
+            double weight = maintainerRatio * contribs / totalContribs;
             OrderedPair<Double,Integer> weightAndProjectId = new OrderedPair<>(weight, projectId);
             connectedNodeProbs.add(weightAndProjectId);
         }

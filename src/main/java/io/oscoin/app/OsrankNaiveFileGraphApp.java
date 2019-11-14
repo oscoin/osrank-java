@@ -16,17 +16,24 @@ import io.oscoin.util.Timer;
  */
 public class OsrankNaiveFileGraphApp {
 
-    public int MAX_WINNERS_TO_DISPLAY = 0;
+    public int MAX_WINNERS_TO_DISPLAY = 10;
 
-    // Naive Osrank parameters
+    // Naive Osrank parameter defaults
     public static final int R = 1000;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
     public static final String METADATA_FILE_PATH = null;
     public static final String DEPENDENCIES_FILE_PATH = null;
     public static final String CONTRIBUTIONS_FILE_PATH = null;
+    public static final String RESULTS_FILE_PATH = "./ranks.csv";
     public static final Boolean ADD_MAINTAINERS = false;
     public static final long RANDOM_SEED = 842384239487239l;
+
+    public static final int PROJECT_DEPENDENCY_WEIGHT = 4;
+    public static final int PROJECT_MAINTAINER_WEIGHT = 0;
+    public static final int PROJECT_CONTRIBUTION_WEIGHT = 4;
+    public static final int ACCOUNT_MAINTAINER_WEIGHT = 3;
+    public static final int ACCOUNT_CONTRIBUTION_WEIGHT = 2;
 
     public OsrankNaiveFileGraphApp() {
     }
@@ -37,11 +44,7 @@ public class OsrankNaiveFileGraphApp {
         System.out.println(osrankParams.toString());
 
         System.out.println("Loading graph....");
-        Graph graph = FileGraphLoader.load(
-            osrankParams.getMetadataFilePath(),
-            osrankParams.getDependenciesFilePath(),
-            osrankParams.getContributionsFilePath(),
-            osrankParams.getAddMaintainersFlag());
+        Graph graph = FileGraphLoader.load(osrankParams);
         System.out.println("Done");
 
         System.out.println("Starting naive algorithm....");
@@ -50,8 +53,7 @@ public class OsrankNaiveFileGraphApp {
         System.out.println("Done");
 
         // Write results to file
-        OutputUtils.writeResultsToCSV(results, graph,false, 1000, "./results/results-projects-1000.csv");
-        OutputUtils.writeResultsToCSV(results, graph,false, 0, "./results/results-projects-all.csv");
+        OutputUtils.writeResultsToCSV(results, graph,false, 0, osrankParams.getResultsFilePath());
 
         // Output results to screen
         if (MAX_WINNERS_TO_DISPLAY > 0 ) {
@@ -72,8 +74,15 @@ public class OsrankNaiveFileGraphApp {
                     METADATA_FILE_PATH,
                     DEPENDENCIES_FILE_PATH,
                     CONTRIBUTIONS_FILE_PATH,
+                    RESULTS_FILE_PATH,
                     ADD_MAINTAINERS,
-                    RANDOM_SEED);
+                    RANDOM_SEED,
+                    PROJECT_DEPENDENCY_WEIGHT,
+                    PROJECT_MAINTAINER_WEIGHT,
+                    PROJECT_CONTRIBUTION_WEIGHT,
+                    ACCOUNT_MAINTAINER_WEIGHT,
+                    ACCOUNT_CONTRIBUTION_WEIGHT
+                    );
 
             // overwrite with command-line options
             OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
