@@ -26,13 +26,15 @@ public class TopList {
             top.add(candidate);
             top.sort(orderedPairComparator);
         } else if (candidate.right.doubleValue() > top.get(0).right.doubleValue()) {
-            top.remove(0);
             top.add(candidate);
             top.sort(orderedPairComparator);
+            top.remove(0);
         }
     }
 
     public List<OrderedPair<Integer,Double>> getTop() {
         return top;
     }
+
+    public int getSize() { return top.size(); }
 }

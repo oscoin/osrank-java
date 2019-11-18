@@ -8,6 +8,13 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class OsrankParams {
 
+    // Some default values to use for a "basic" set of OsrankParams values
+    private static final Integer BASIC_R = 10;
+    private static final double BASIC_PROJECT_DAMPING_FACTOR = 0.85d;
+    private static final double BASIC_ACCOUNT_DAMPING_FACTOR = 0.85d;
+    private static final Boolean BASIC_ADD_MAINTAINERS = false;
+    private static final long BASIC_RANDOM_SEED = 842384239487239l;
+
     // The R value to use for the Osrank run. In particular, R is the number of random walks that start from each node
     private Integer R = null;
 
@@ -264,4 +271,15 @@ public class OsrankParams {
         return params;
     }
 
+    public static OsrankParams buildBasicOsrankParams() {
+        return new OsrankParams(
+                BASIC_R,
+                BASIC_PROJECT_DAMPING_FACTOR,
+                BASIC_ACCOUNT_DAMPING_FACTOR,
+                null,
+                null,
+                null,
+                BASIC_ADD_MAINTAINERS,
+                BASIC_RANDOM_SEED);
+    }
 }
