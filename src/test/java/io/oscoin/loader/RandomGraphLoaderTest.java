@@ -1,5 +1,6 @@
 package io.oscoin.loader;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
 import io.oscoin.util.MathUtils;
@@ -15,9 +16,11 @@ public class RandomGraphLoaderTest {
     @Test
     public void testSimpleGraphLoader() {
 
+        OsrankParams basicOsrankParams = OsrankParams.buildBasicOsrankParams();
+
         Graph simpleGraph =
-                RandomGraphLoader.buildRandomlyGenerattedGraph(
-                        10, 10, 5, 100, new Random(RANDOM_SEED));
+                RandomGraphLoader.buildRandomlyGeneratedGraph(
+                        10, 10, 5, 100, basicOsrankParams, new Random(RANDOM_SEED));
 
         List<Node> nodes = simpleGraph.getAllNodes();
 

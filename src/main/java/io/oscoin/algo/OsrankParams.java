@@ -14,6 +14,12 @@ public class OsrankParams {
     private static final double BASIC_ACCOUNT_DAMPING_FACTOR = 0.85d;
     private static final Boolean BASIC_ADD_MAINTAINERS = false;
     private static final long BASIC_RANDOM_SEED = 842384239487239l;
+    private static final double BASIC_PROJECT_DEPENDENCY_WEIGHT = 4d;
+    private static final double BASIC_PROJECT_MAINTAINER_WEIGHT = 2d;
+    private static final double BASIC_PROJECT_CONTRIBUTION_WEIGHT = 1d;
+    private static final double BASIC_ACCOUNT_MAINTAINER_WEIGHT = 3d;
+    private static final double BASIC_ACCOUNT_CONTRIBUTION_WEIGHT = 2d;
+
 
     // The R value to use for the Osrank run. In particular, R is the number of random walks that start from each node
     private Integer R = null;
@@ -115,27 +121,27 @@ public class OsrankParams {
         return addMaintainersFlag;
     }
 
-    public Long getRandomSeed() {
+    public long getRandomSeed() {
         return (randomSeed != null) ? randomSeed : 0;
     }
 
-    public Double getProjectDependencyWeight() {
+    public double getProjectDependencyWeight() {
         return (projectDependencyWeight != null) ? projectDependencyWeight : 0d;
     }
 
-    public Double getProjectMaintainerWeight() {
+    public double getProjectMaintainerWeight() {
         return (projectMaintainerWeight != null) ? projectMaintainerWeight : 0d;
     }
 
-    public Double getProjectContributionWeight() {
+    public double getProjectContributionWeight() {
         return (projectContributionWeight != null) ? projectContributionWeight : 0d;
     }
 
-    public Double getAccountMaintainerWeight() {
+    public double getAccountMaintainerWeight() {
         return (accountMaintainerWeight != null) ? accountMaintainerWeight : 0d;
     }
 
-    public Double getAccountContributionWeight() {
+    public double getAccountContributionWeight() {
         return (accountContributionWeight != null) ? accountContributionWeight : 0d;
     }
 
@@ -143,9 +149,24 @@ public class OsrankParams {
      * @return Pretty string representation of parameter set
      */
     public String toString() {
-        // TODO add weights
-        return String.format("R:%s,\nprojectDampingFactor:%s,\naccountDampingFactor:%s,\nmetadataFilePath:%s,\ndependenciesFilePath:%s,\ncontributionsFilePath:%s,\nresultsFilePath:%s,\naddMaintainersFlag:%s,\nrandomSeed:%s\n",
-            this.getR(), this.getProjectDampingFactor(), this.getAccountDampingFactor(), this.getMetadataFilePath(), this.getDependenciesFilePath(), this.getContributionsFilePath(), this.getResultsFilePath(), this.getAddMaintainersFlag(), this.getRandomSeed());
+
+        StringBuilder s = new StringBuilder();
+        s.append(String.format("R: %s%n", getR()));
+        s.append(String.format("projectDampingFactor: %s%n", getProjectDampingFactor()));
+        s.append(String.format("accountDampingFactor: %s%n", getAccountDampingFactor()));
+        s.append(String.format("metadataFilePath: %s%n", getMetadataFilePath()));
+        s.append(String.format("dependenciesFilePath: %s%n", getDependenciesFilePath()));
+        s.append(String.format("contributionsFilePath: %s%n", getContributionsFilePath()));
+        s.append(String.format("resultsFilePath: %s%n", getResultsFilePath()));
+        s.append(String.format("addMaintainersFlag: %s%n", getAddMaintainersFlag()));
+        s.append(String.format("randomSeed: %s%n", getRandomSeed()));
+        s.append(String.format("projectDependencyWeight: %s%n", getProjectDependencyWeight()));
+        s.append(String.format("projectMaintainerWeight: %s%n", getProjectMaintainerWeight()));
+        s.append(String.format("projectContributionWeight: %s%n", getProjectContributionWeight()));
+        s.append(String.format("accountMaintainerWeight: %s%n", getAccountMaintainerWeight()));
+        s.append(String.format("accountContributionWeight: %s%n", getAccountContributionWeight()));
+
+        return s.toString();
     }
 
     /**
@@ -195,7 +216,30 @@ public class OsrankParams {
             System.out.println("Missing parameter: randomSeed");
         }
 
-        // TODO add weights!
+        if (null == projectDependencyWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectDependencyWeight");
+        }
+
+        if (null == projectMaintainerWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectMaintainerWeight");
+        }
+
+        if (null == projectContributionWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectContributionWeight");
+        }
+
+        if (null == accountMaintainerWeight) {
+            valid = false;
+            System.out.println("Missing parameter: accountMaintainerWeight");
+        }
+
+        if (null == accountContributionWeight) {
+            valid = false;
+            System.out.println("Missing parameter: accountContributionWeight");
+        }
 
         return valid;
     }
@@ -279,7 +323,14 @@ public class OsrankParams {
                 null,
                 null,
                 null,
+                null,
                 BASIC_ADD_MAINTAINERS,
-                BASIC_RANDOM_SEED);
+                BASIC_RANDOM_SEED,
+                BASIC_PROJECT_DEPENDENCY_WEIGHT,
+                BASIC_PROJECT_MAINTAINER_WEIGHT,
+                BASIC_PROJECT_CONTRIBUTION_WEIGHT,
+                BASIC_ACCOUNT_MAINTAINER_WEIGHT,
+                BASIC_ACCOUNT_CONTRIBUTION_WEIGHT);
+
     }
 }

@@ -18,12 +18,12 @@ public class SimpleGraphLoader {
 
         Graph graph = new Graph();
 
-        ProjectNode projectNode = new ProjectNode(1);
+        ProjectNode projectNode = new ProjectNode(1, "Project");
         projectNode.addProjectContributor(2, 10);
         projectNode.addProjectMaintainer(2);
         graph.addProjectNode(projectNode);
 
-        AccountNode accountNode = new AccountNode( 2);
+        AccountNode accountNode = new AccountNode( 2, "Account");
         accountNode.addProjectContributions(1, 10);
         accountNode.addProjectMaintained(1);
         graph.addAccountNode(accountNode);

@@ -13,7 +13,7 @@ public class OsrankResultsTest {
 
         OsrankParams basicOsrankParams = OsrankParams.buildBasicOsrankParams();
 
-        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
+        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(basicOsrankParams);
 
         OsrankResults osrankResults = new OsrankResults(basicOsrankParams, simpleGraph);
 

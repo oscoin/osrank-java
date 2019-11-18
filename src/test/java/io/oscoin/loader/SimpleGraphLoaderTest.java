@@ -13,21 +13,9 @@ public class SimpleGraphLoaderTest {
     @Test
     public void testSimpleGraphLoader() {
 
-        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(new OsrankParams(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                4d,
-                2d,
-                1d,
-                3d,
-                2d));
+        OsrankParams osrankBasicParams = OsrankParams.buildBasicOsrankParams();
+
+        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(osrankBasicParams);
 
 
         List<Node> nodes = simpleGraph.getAllNodes();

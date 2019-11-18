@@ -1,5 +1,6 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.loader.SimpleGraphLoader;
 import io.oscoin.util.MathUtils;
 import io.oscoin.util.OrderedPair;
@@ -19,7 +20,7 @@ public class ProjectNodeTest {
         projectNode1.addProjectContributor(3, 10000);
         projectNode1.addProjectMaintainer(4);
 
-        projectNode1.buildConnectedNodeProbs();
+        projectNode1.buildConnectedNodeProbs(OsrankParams.buildBasicOsrankParams());
 
         assert(projectNode1.connectedNodeProbs.size() == 3);
 

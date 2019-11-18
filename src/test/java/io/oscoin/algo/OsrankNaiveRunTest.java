@@ -13,7 +13,7 @@ public class OsrankNaiveRunTest {
 
         OsrankParams basicOsrankParams = OsrankParams.buildBasicOsrankParams();
 
-        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
+        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(basicOsrankParams);
 
         OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(basicOsrankParams, simpleGraph);
         OsrankResults osrankResults = osrankNaiveRun.runNaiveOsrankAlgorithm();
