@@ -32,7 +32,7 @@ public class OutputUtils {
             FileWriter csvWriter = new FileWriter(filename);
 
             // Write out header
-            csvWriter.append("Name, Id, Osrank\n");
+            csvWriter.append("Name,Id,Osrank\n");
 
             // Write out each node
             sortedResultsAsStream.forEach((entry) -> {
@@ -41,7 +41,7 @@ public class OutputUtils {
                 double nodeOsrank = entry.getValue();
 
                 try {
-                    csvWriter.append(String.format("%s, %d, %.6f\n", nodeName, nodeId, nodeOsrank));
+                    csvWriter.append(String.format("%s,%d,%.6f\n", nodeName, nodeId, nodeOsrank));
                 } catch (IOException e) {
                     System.out.format("Problem writing node with id: %d, osrank: %.4f", nodeId, nodeOsrank);
                 }

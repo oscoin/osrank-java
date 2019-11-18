@@ -4,3 +4,4 @@
 target/
 results/
 out/
+*.csv

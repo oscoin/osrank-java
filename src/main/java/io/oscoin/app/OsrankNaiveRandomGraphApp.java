@@ -22,16 +22,22 @@ import java.util.Random;
 public class OsrankNaiveRandomGraphApp {
 
     // Random project graph generation parameters
-    public int NUM_PROJECTS = 100000;
-    public int NUM_EXTRA_ACCOUNTS = 200000;
+    public int NUM_PROJECTS = 1000;
+    public int NUM_EXTRA_ACCOUNTS = 2000;
     int MAX_ADDITIONAL_PROJECTS_TO_CONTRIBUTE_TO = 10;
     int MAX_EXTRA_CONTRIBUTIONS_PER_PROJECT = 20;
 
-    // Naive Osrank parameters
+    // Naive Osrank parameter defaults
     public static final int R = 100;
     public static final double PROJECT_DAMPING_FACTOR = 0.85d;
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
     public static final long RANDOM_SEED = 842384239487239l;
+
+    public static final double PROJECT_DEPENDENCY_WEIGHT = 4d;
+    public static final double PROJECT_MAINTAINER_WEIGHT = 0d;
+    public static final double PROJECT_CONTRIBUTION_WEIGHT = 4d;
+    public static final double ACCOUNT_MAINTAINER_WEIGHT = 3d;
+    public static final double ACCOUNT_CONTRIBUTION_WEIGHT = 2d;
 
 
     public OsrankNaiveRandomGraphApp() {
@@ -42,11 +48,12 @@ public class OsrankNaiveRandomGraphApp {
         System.out.println("Building random graph....");
         Random random = new Random(osrankParams.getRandomSeed());
         Graph randomGraph =
-            RandomGraphLoader.buildRandomlyGenerattedGraph(
+            RandomGraphLoader.buildRandomlyGeneratedGraph(
                 NUM_PROJECTS,
                 NUM_EXTRA_ACCOUNTS,
                 MAX_ADDITIONAL_PROJECTS_TO_CONTRIBUTE_TO,
                 MAX_EXTRA_CONTRIBUTIONS_PER_PROJECT,
+                osrankParams,
                 random);
         System.out.println("Done");
 
@@ -79,7 +86,14 @@ public class OsrankNaiveRandomGraphApp {
                     null,
                     null,
                     null,
-                    RANDOM_SEED);
+                    null,
+                    RANDOM_SEED,
+                    PROJECT_DEPENDENCY_WEIGHT,
+                    PROJECT_MAINTAINER_WEIGHT,
+                    PROJECT_CONTRIBUTION_WEIGHT,
+                    ACCOUNT_MAINTAINER_WEIGHT,
+                    ACCOUNT_CONTRIBUTION_WEIGHT
+            );
 
             // overwrite with command-line options
             OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);

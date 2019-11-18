@@ -1,5 +1,6 @@
 package io.oscoin.loader;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
 import io.oscoin.util.MathUtils;
@@ -12,7 +13,10 @@ public class SimpleGraphLoaderTest {
     @Test
     public void testSimpleGraphLoader() {
 
-        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
+        OsrankParams osrankBasicParams = OsrankParams.buildBasicOsrankParams();
+
+        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(osrankBasicParams);
+
 
         List<Node> nodes = simpleGraph.getAllNodes();
 

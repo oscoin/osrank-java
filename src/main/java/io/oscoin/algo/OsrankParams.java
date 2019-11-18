@@ -14,6 +14,12 @@ public class OsrankParams {
     private static final double BASIC_ACCOUNT_DAMPING_FACTOR = 0.85d;
     private static final Boolean BASIC_ADD_MAINTAINERS = false;
     private static final long BASIC_RANDOM_SEED = 842384239487239l;
+    private static final double BASIC_PROJECT_DEPENDENCY_WEIGHT = 4d;
+    private static final double BASIC_PROJECT_MAINTAINER_WEIGHT = 2d;
+    private static final double BASIC_PROJECT_CONTRIBUTION_WEIGHT = 1d;
+    private static final double BASIC_ACCOUNT_MAINTAINER_WEIGHT = 3d;
+    private static final double BASIC_ACCOUNT_CONTRIBUTION_WEIGHT = 2d;
+
 
     // The R value to use for the Osrank run. In particular, R is the number of random walks that start from each node
     private Integer R = null;
@@ -33,12 +39,21 @@ public class OsrankParams {
     // Relative path from project root to location of contributions csv
     private String contributionsFilePath = null;
 
+    // Relative path from project root to location of output file containing osrank results
+    private String resultsFilePath = null;
+
     // Flag if we want to impute/invent maintainers or not
     private Boolean addMaintainersFlag = null;
 
     // Seed to use for generating randomnesss
     private Long randomSeed = null;
 
+    // Weights
+    private Double projectDependencyWeight = null;
+    private Double projectMaintainerWeight = null;
+    private Double projectContributionWeight = null;
+    private Double accountMaintainerWeight = null;
+    private Double accountContributionWeight = null;
 
     public OsrankParams() {
     }
@@ -50,28 +65,40 @@ public class OsrankParams {
             String metadataFilePath,
             String dependenciesFilePath,
             String contributionsFilePath,
+            String resultsFilePath,
             Boolean addMaintainersFlag,
-            Long randomSeed) {
+            Long randomSeed,
+            Double projectDependencyWeight,
+            Double projectMaintainerWeight,
+            Double projectContributionWeight,
+            Double accountMaintainerWeight,
+            Double accountContributionWeight) {
         this.R = R;
         this.projectDampingFactor = projectDampingFactor;
         this.accountDampingFactor = accountDampingFactor;
         this.metadataFilePath = metadataFilePath;
         this.dependenciesFilePath = dependenciesFilePath;
         this.contributionsFilePath = contributionsFilePath;
+        this.resultsFilePath = resultsFilePath;
         this.addMaintainersFlag = addMaintainersFlag;
         this.randomSeed = randomSeed;
+        this.projectDependencyWeight = projectDependencyWeight;
+        this.projectMaintainerWeight = projectMaintainerWeight;
+        this.projectContributionWeight = projectContributionWeight;
+        this.accountMaintainerWeight = accountMaintainerWeight;
+        this.accountContributionWeight = accountContributionWeight;
     }
 
     public int getR() {
-        return (R != null) ? R.intValue() : 0;
+        return (R != null) ? R : 0;
     }
 
     public double getProjectDampingFactor() {
-        return (projectDampingFactor != null) ? projectDampingFactor.doubleValue() : 0.0;
+        return (projectDampingFactor != null) ? projectDampingFactor : 0d;
     }
 
     public double getAccountDampingFactor() {
-        return (accountDampingFactor != null) ? accountDampingFactor.doubleValue() : 0.0;
+        return (accountDampingFactor != null) ? accountDampingFactor : 0d;
     }
 
     public String getContributionsFilePath() {
@@ -86,20 +113,60 @@ public class OsrankParams {
         return metadataFilePath;
     }
 
+    public String getResultsFilePath() {
+        return resultsFilePath;
+    }
+
     public Boolean getAddMaintainersFlag() {
         return addMaintainersFlag;
     }
 
-    public Long getRandomSeed() {
-        return (randomSeed != null) ? randomSeed.longValue() : 0;
+    public long getRandomSeed() {
+        return (randomSeed != null) ? randomSeed : 0;
+    }
+
+    public double getProjectDependencyWeight() {
+        return (projectDependencyWeight != null) ? projectDependencyWeight : 0d;
+    }
+
+    public double getProjectMaintainerWeight() {
+        return (projectMaintainerWeight != null) ? projectMaintainerWeight : 0d;
+    }
+
+    public double getProjectContributionWeight() {
+        return (projectContributionWeight != null) ? projectContributionWeight : 0d;
+    }
+
+    public double getAccountMaintainerWeight() {
+        return (accountMaintainerWeight != null) ? accountMaintainerWeight : 0d;
+    }
+
+    public double getAccountContributionWeight() {
+        return (accountContributionWeight != null) ? accountContributionWeight : 0d;
     }
 
     /**
      * @return Pretty string representation of parameter set
      */
     public String toString() {
-        return String.format("R:%s,\nprojectDampingFactor:%s,\naccountDampingFactor:%s,\nmetadataFilePath:%s,\ndependenciesFilePath:%s,\ncontributionsFilePath:%s,\naddMaintainersFlag:%s,\nrandomSeed:%s\n",
-            this.getR(), this.getProjectDampingFactor(), this.getAccountDampingFactor(), this.getMetadataFilePath(), this.getDependenciesFilePath(), this.getContributionsFilePath(), this.getAddMaintainersFlag(), this.getRandomSeed());
+
+        StringBuilder s = new StringBuilder();
+        s.append(String.format("R: %s%n", getR()));
+        s.append(String.format("projectDampingFactor: %s%n", getProjectDampingFactor()));
+        s.append(String.format("accountDampingFactor: %s%n", getAccountDampingFactor()));
+        s.append(String.format("metadataFilePath: %s%n", getMetadataFilePath()));
+        s.append(String.format("dependenciesFilePath: %s%n", getDependenciesFilePath()));
+        s.append(String.format("contributionsFilePath: %s%n", getContributionsFilePath()));
+        s.append(String.format("resultsFilePath: %s%n", getResultsFilePath()));
+        s.append(String.format("addMaintainersFlag: %s%n", getAddMaintainersFlag()));
+        s.append(String.format("randomSeed: %s%n", getRandomSeed()));
+        s.append(String.format("projectDependencyWeight: %s%n", getProjectDependencyWeight()));
+        s.append(String.format("projectMaintainerWeight: %s%n", getProjectMaintainerWeight()));
+        s.append(String.format("projectContributionWeight: %s%n", getProjectContributionWeight()));
+        s.append(String.format("accountMaintainerWeight: %s%n", getAccountMaintainerWeight()));
+        s.append(String.format("accountContributionWeight: %s%n", getAccountContributionWeight()));
+
+        return s.toString();
     }
 
     /**
@@ -134,6 +201,11 @@ public class OsrankParams {
             System.out.println("Missing parameter: dependenciesFilePath");
         }
 
+        if (null == resultsFilePath) {
+            valid = false;
+            System.out.println("Missing parameter: resultsFilePath");
+        }
+
         if (null == addMaintainersFlag) {
             valid = false;
             System.out.println("Missing parameter: addMaintainersFlag");
@@ -142,6 +214,31 @@ public class OsrankParams {
         if (null == randomSeed) {
             valid = false;
             System.out.println("Missing parameter: randomSeed");
+        }
+
+        if (null == projectDependencyWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectDependencyWeight");
+        }
+
+        if (null == projectMaintainerWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectMaintainerWeight");
+        }
+
+        if (null == projectContributionWeight) {
+            valid = false;
+            System.out.println("Missing parameter: projectContributionWeight");
+        }
+
+        if (null == accountMaintainerWeight) {
+            valid = false;
+            System.out.println("Missing parameter: accountMaintainerWeight");
+        }
+
+        if (null == accountContributionWeight) {
+            valid = false;
+            System.out.println("Missing parameter: accountContributionWeight");
         }
 
         return valid;
@@ -159,8 +256,14 @@ public class OsrankParams {
         String metadataFilePath = commandLineParams.getMetadataFilePath() != null ? commandLineParams.getMetadataFilePath() : defaultOsRankParams.getMetadataFilePath();
         String dependenciesFilePath = commandLineParams.getDependenciesFilePath() != null ? commandLineParams.getDependenciesFilePath() : defaultOsRankParams.getDependenciesFilePath();
         String contributionsFilePath = commandLineParams.getContributionsFilePath() != null ? commandLineParams.getContributionsFilePath() : defaultOsRankParams.getContributionsFilePath();
+        String resultsFilePath = commandLineParams.getResultsFilePath() != null ? commandLineParams.getResultsFilePath() : defaultOsRankParams.getResultsFilePath();
         Boolean addMaintainersFlag = commandLineParams.getAddMaintainersFlag() != null ? commandLineParams.getAddMaintainersFlag() : defaultOsRankParams.getAddMaintainersFlag();
         Long randomSeed = commandLineParams.getRandomSeed() > 0 ? commandLineParams.getRandomSeed() : defaultOsRankParams.getRandomSeed();
+        Double projectDependencyWeight = commandLineParams.getProjectDependencyWeight() > 0 ? commandLineParams.getProjectDependencyWeight() : defaultOsRankParams.getProjectDependencyWeight();
+        Double projectMaintainerWeight = commandLineParams.getProjectMaintainerWeight() > 0 ? commandLineParams.getProjectMaintainerWeight() : defaultOsRankParams.getProjectMaintainerWeight();
+        Double projectContributionWeight = commandLineParams.getProjectContributionWeight() > 0 ? commandLineParams.getProjectContributionWeight() : defaultOsRankParams.getProjectContributionWeight();
+        Double accountMaintainerWeight = commandLineParams.getAccountMaintainerWeight() > 0 ? commandLineParams.getAccountMaintainerWeight() : defaultOsRankParams.getAccountMaintainerWeight();
+        Double accountContributionWeight = commandLineParams.getAccountContributionWeight() > 0 ? commandLineParams.getAccountContributionWeight() : defaultOsRankParams.getAccountContributionWeight();
 
         // Create a new object with the merged params.
         return new OsrankParams(
@@ -170,8 +273,14 @@ public class OsrankParams {
             metadataFilePath,
             dependenciesFilePath,
             contributionsFilePath,
+            resultsFilePath,
             addMaintainersFlag,
-            randomSeed);
+            randomSeed,
+            projectDependencyWeight,
+            projectMaintainerWeight,
+            projectContributionWeight,
+            accountMaintainerWeight,
+            accountMaintainerWeight);
     }
 
     // Factory method to generate params object from command-line values.
@@ -214,7 +323,14 @@ public class OsrankParams {
                 null,
                 null,
                 null,
+                null,
                 BASIC_ADD_MAINTAINERS,
-                BASIC_RANDOM_SEED);
+                BASIC_RANDOM_SEED,
+                BASIC_PROJECT_DEPENDENCY_WEIGHT,
+                BASIC_PROJECT_MAINTAINER_WEIGHT,
+                BASIC_PROJECT_CONTRIBUTION_WEIGHT,
+                BASIC_ACCOUNT_MAINTAINER_WEIGHT,
+                BASIC_ACCOUNT_CONTRIBUTION_WEIGHT);
+
     }
 }

@@ -1,5 +1,6 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.util.MathUtils;
 import io.oscoin.util.OrderedPair;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class AccountNodeTest {
         accountNode.addProjectContributions(1, 10000);
         accountNode.addProjectMaintained(1);
 
-        accountNode.buildConnectedNodeProbs();
+        accountNode.buildConnectedNodeProbs(OsrankParams.buildBasicOsrankParams());
 
         assert(accountNode.connectedNodeProbs.size() == 2);
 

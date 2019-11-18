@@ -1,5 +1,6 @@
 package io.oscoin.loader;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
@@ -39,11 +40,12 @@ public class RandomGraphLoader {
      * @param random  The Random object used to create random values to generate the graph
      * @return
      */
-    public static Graph buildRandomlyGenerattedGraph(
+    public static Graph buildRandomlyGeneratedGraph(
             int numProjects,
             int numExtraAccounts,
             int maxAdditionalProjectsToContributeTo,
             int maxExtraContributionsPerProject,
+            OsrankParams osrankParams,
             Random random) {
 
         Graph graph = new Graph();
@@ -101,7 +103,7 @@ public class RandomGraphLoader {
 
         // Build the probabilities and normalize them for all nodes
         for (Node node : graph.getAllNodes()) {
-            node.buildConnectedNodeProbs();
+            node.buildConnectedNodeProbs(osrankParams);
             node.normalizeEdgeProbabilities();
         }
 

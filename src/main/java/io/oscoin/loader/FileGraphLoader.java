@@ -1,5 +1,6 @@
 package io.oscoin.loader;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.graph.AccountNode;
 import io.oscoin.graph.Graph;
 import io.oscoin.graph.Node;
@@ -23,26 +24,26 @@ import java.util.stream.Collectors;
  */
 public class FileGraphLoader {
 
-    public static Graph load(String metadataFilename, String dependenciesFilename, String contributionsFilename, Boolean addMaintainers) {
+    public static Graph load(OsrankParams osrankParams) {
 
         Graph graph = new Graph();
 
         // Add project metadata to Graph
-        if (metadataFilename != null) FileGraphLoader.addMetadataToGraph(graph, metadataFilename);
+        if (osrankParams.getMetadataFilePath() != null) FileGraphLoader.addMetadataToGraph(graph, osrankParams.getMetadataFilePath());
 
         // Add project dependencies to Graph
-        if (dependenciesFilename != null) FileGraphLoader.addDependenciesToGraph(graph, dependenciesFilename);
+        if (osrankParams.getDependenciesFilePath() != null) FileGraphLoader.addDependenciesToGraph(graph, osrankParams.getDependenciesFilePath());
 
         // Add contributions to Graph
-        if (contributionsFilename != null) FileGraphLoader.addContributionsToGraph(graph, contributionsFilename);
+        if (osrankParams.getContributionsFilePath() != null) FileGraphLoader.addContributionsToGraph(graph, osrankParams.getContributionsFilePath());
 
         // Add maintainers to Graph
-        if (addMaintainers) {
+        if (osrankParams.getAddMaintainersFlag()) {
             FileGraphLoader.addMaintainersToGraph(graph);
         }
 
         // Preprocess
-        graph.buildAndNormalizeAllNodes();
+        graph.buildAndNormalizeAllNodes(osrankParams);
 
         return graph;
     }

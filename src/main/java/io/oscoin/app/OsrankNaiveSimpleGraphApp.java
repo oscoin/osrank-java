@@ -21,12 +21,18 @@ public class OsrankNaiveSimpleGraphApp {
     public static final double ACCOUNT_DAMPING_FACTOR = 0.85d;
     public static final long RANDOM_SEED = 842384239487239l;
 
+    public static final double PROJECT_DEPENDENCY_WEIGHT = 4d;
+    public static final double PROJECT_MAINTAINER_WEIGHT = 0d;
+    public static final double PROJECT_CONTRIBUTION_WEIGHT = 4d;
+    public static final double ACCOUNT_MAINTAINER_WEIGHT = 3d;
+    public static final double ACCOUNT_CONTRIBUTION_WEIGHT = 2d;
+
     public OsrankNaiveSimpleGraphApp() {
     }
 
     private void runOsrankNaive(OsrankParams osrankParams) {
 
-        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph();
+        Graph simpleGraph = SimpleGraphLoader.buildSimpleOneProjectOneContributorGraph(osrankParams);
 
         OsrankNaiveRun osrankNaiveRun = new OsrankNaiveRun(osrankParams, simpleGraph);
 
@@ -50,7 +56,14 @@ public class OsrankNaiveSimpleGraphApp {
                 null,
                 null,
                 null,
-                RANDOM_SEED);
+                null,
+                RANDOM_SEED,
+                PROJECT_DEPENDENCY_WEIGHT,
+                PROJECT_MAINTAINER_WEIGHT,
+                PROJECT_CONTRIBUTION_WEIGHT,
+                ACCOUNT_MAINTAINER_WEIGHT,
+                ACCOUNT_CONTRIBUTION_WEIGHT
+        );
 
         // overwrite with command-line options
         OsrankParams osrankParams = OsrankParams.getInstance(args, osrankDefaultParams);
