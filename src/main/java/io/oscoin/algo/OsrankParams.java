@@ -36,11 +36,11 @@ public class OsrankParams {
     private Long randomSeed = null;
 
     // Weights
-    private Integer projectDependencyWeight = null;
-    private Integer projectMaintainerWeight = null;
-    private Integer projectContributionWeight = null;
-    private Integer accountMaintainerWeight = null;
-    private Integer accountContributionWeight = null;
+    private Double projectDependencyWeight = null;
+    private Double projectMaintainerWeight = null;
+    private Double projectContributionWeight = null;
+    private Double accountMaintainerWeight = null;
+    private Double accountContributionWeight = null;
 
     public OsrankParams() {
     }
@@ -55,11 +55,11 @@ public class OsrankParams {
             String resultsFilePath,
             Boolean addMaintainersFlag,
             Long randomSeed,
-            Integer projectDependencyWeight,
-            Integer projectMaintainerWeight,
-            Integer projectContributionWeight,
-            Integer accountMaintainerWeight,
-            Integer accountContributionWeight) {
+            Double projectDependencyWeight,
+            Double projectMaintainerWeight,
+            Double projectContributionWeight,
+            Double accountMaintainerWeight,
+            Double accountContributionWeight) {
         this.R = R;
         this.projectDampingFactor = projectDampingFactor;
         this.accountDampingFactor = accountDampingFactor;
@@ -77,15 +77,15 @@ public class OsrankParams {
     }
 
     public int getR() {
-        return (R != null) ? R.intValue() : 0;
+        return (R != null) ? R : 0;
     }
 
     public double getProjectDampingFactor() {
-        return (projectDampingFactor != null) ? projectDampingFactor.doubleValue() : 0.0;
+        return (projectDampingFactor != null) ? projectDampingFactor : 0d;
     }
 
     public double getAccountDampingFactor() {
-        return (accountDampingFactor != null) ? accountDampingFactor.doubleValue() : 0.0;
+        return (accountDampingFactor != null) ? accountDampingFactor : 0d;
     }
 
     public String getContributionsFilePath() {
@@ -109,27 +109,27 @@ public class OsrankParams {
     }
 
     public Long getRandomSeed() {
-        return (randomSeed != null) ? randomSeed.longValue() : 0;
+        return (randomSeed != null) ? randomSeed : 0;
     }
 
-    public Integer getProjectDependencyWeight() {
-        return (projectDependencyWeight != null) ? projectDependencyWeight : 0;
+    public Double getProjectDependencyWeight() {
+        return (projectDependencyWeight != null) ? projectDependencyWeight : 0d;
     }
 
-    public Integer getProjectMaintainerWeight() {
-        return (projectMaintainerWeight != null) ? projectMaintainerWeight : 0;
+    public Double getProjectMaintainerWeight() {
+        return (projectMaintainerWeight != null) ? projectMaintainerWeight : 0d;
     }
 
-    public Integer getProjectContributionWeight() {
-        return (projectContributionWeight != null) ? projectContributionWeight : 0;
+    public Double getProjectContributionWeight() {
+        return (projectContributionWeight != null) ? projectContributionWeight : 0d;
     }
 
-    public Integer getAccountMaintainerWeight() {
-        return (accountMaintainerWeight != null) ? accountMaintainerWeight : 0;
+    public Double getAccountMaintainerWeight() {
+        return (accountMaintainerWeight != null) ? accountMaintainerWeight : 0d;
     }
 
-    public Integer getAccountContributionWeight() {
-        return (accountContributionWeight != null) ? accountContributionWeight : 0;
+    public Double getAccountContributionWeight() {
+        return (accountContributionWeight != null) ? accountContributionWeight : 0d;
     }
 
     /**
@@ -208,11 +208,11 @@ public class OsrankParams {
         String resultsFilePath = commandLineParams.getResultsFilePath() != null ? commandLineParams.getResultsFilePath() : defaultOsRankParams.getResultsFilePath();
         Boolean addMaintainersFlag = commandLineParams.getAddMaintainersFlag() != null ? commandLineParams.getAddMaintainersFlag() : defaultOsRankParams.getAddMaintainersFlag();
         Long randomSeed = commandLineParams.getRandomSeed() > 0 ? commandLineParams.getRandomSeed() : defaultOsRankParams.getRandomSeed();
-        Integer projectDependencyWeight = commandLineParams.getProjectDependencyWeight() > 0 ? commandLineParams.getProjectDependencyWeight() : defaultOsRankParams.getProjectDependencyWeight();
-        Integer projectMaintainerWeight = commandLineParams.getProjectMaintainerWeight() > 0 ? commandLineParams.getProjectMaintainerWeight() : defaultOsRankParams.getProjectMaintainerWeight();
-        Integer projectContributionWeight = commandLineParams.getProjectContributionWeight() > 0 ? commandLineParams.getProjectContributionWeight() : defaultOsRankParams.getProjectContributionWeight();
-        Integer accountMaintainerWeight = commandLineParams.getAccountMaintainerWeight() > 0 ? commandLineParams.getAccountMaintainerWeight() : defaultOsRankParams.getAccountMaintainerWeight();
-        Integer accountContributionWeight = commandLineParams.getAccountContributionWeight() > 0 ? commandLineParams.getAccountContributionWeight() : defaultOsRankParams.getAccountContributionWeight();
+        Double projectDependencyWeight = commandLineParams.getProjectDependencyWeight() > 0 ? commandLineParams.getProjectDependencyWeight() : defaultOsRankParams.getProjectDependencyWeight();
+        Double projectMaintainerWeight = commandLineParams.getProjectMaintainerWeight() > 0 ? commandLineParams.getProjectMaintainerWeight() : defaultOsRankParams.getProjectMaintainerWeight();
+        Double projectContributionWeight = commandLineParams.getProjectContributionWeight() > 0 ? commandLineParams.getProjectContributionWeight() : defaultOsRankParams.getProjectContributionWeight();
+        Double accountMaintainerWeight = commandLineParams.getAccountMaintainerWeight() > 0 ? commandLineParams.getAccountMaintainerWeight() : defaultOsRankParams.getAccountMaintainerWeight();
+        Double accountContributionWeight = commandLineParams.getAccountContributionWeight() > 0 ? commandLineParams.getAccountContributionWeight() : defaultOsRankParams.getAccountContributionWeight();
 
         // Create a new object with the merged params.
         return new OsrankParams(

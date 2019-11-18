@@ -103,12 +103,7 @@ public class RandomGraphLoader {
 
         // Build the probabilities and normalize them for all nodes
         for (Node node : graph.getAllNodes()) {
-            node.buildConnectedNodeProbs(
-                osrankParams.getProjectDependencyWeight(),
-                osrankParams.getProjectMaintainerWeight(),
-                osrankParams.getProjectContributionWeight(),
-                osrankParams.getAccountMaintainerWeight(),
-                osrankParams.getAccountContributionWeight());
+            node.buildConnectedNodeProbs(osrankParams);
             node.normalizeEdgeProbabilities();
         }
 

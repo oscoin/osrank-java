@@ -1,5 +1,7 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
+import io.oscoin.algo.OsrankResults;
 import io.oscoin.util.OrderedPair;
 
 import java.util.HashMap;
@@ -39,20 +41,15 @@ public class AccountNode extends Node {
         projectsMaintained.add(projectId);
     }
 
-    public void buildConnectedNodeProbs(
-            int projectDependencyWeight,
-            int projectMaintainerWeight,
-            int projectContributionWeight,
-            int accountMaintainerWeight,
-            int accountContributionWeight) {
+    public void buildConnectedNodeProbs(OsrankParams osrankParams) {
 
         // Reset connected node probs in case this was called before
         connectedNodeProbs.clear();
 
         // Convert account weights into ratios; Ignore project weights
-        double totalWeight = accountMaintainerWeight + accountContributionWeight;
-        double maintainerRatio = accountMaintainerWeight / totalWeight;
-        double contributionRatio = accountContributionWeight / totalWeight;
+        double totalWeight = osrankParams.getAccountMaintainerWeight() + osrankParams.getAccountContributionWeight();
+        double maintainerRatio = osrankParams.getAccountMaintainerWeight() / totalWeight;
+        double contributionRatio = osrankParams.getAccountContributionWeight() / totalWeight;
 
         // First get the total contrib count
         int totalContribs = 0;

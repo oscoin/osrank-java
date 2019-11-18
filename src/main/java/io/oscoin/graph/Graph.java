@@ -1,5 +1,7 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,20 +39,9 @@ public class Graph {
         allNodes.add(accountNode);
     }
 
-    public void buildAndNormalizeAllNodes(
-        int projectDependencyWeight,
-        int projectMaintainerWeight,
-        int projectContributionWeight,
-        int accountMaintainerWeight,
-        int accountContributionWeight) {
+    public void buildAndNormalizeAllNodes(OsrankParams osrankParams) {
         for (Node node : allNodes) {
-            node.buildConnectedNodeProbs(
-                projectDependencyWeight,
-                projectMaintainerWeight,
-                projectContributionWeight,
-                accountMaintainerWeight,
-                accountContributionWeight);
-
+            node.buildConnectedNodeProbs(osrankParams);
             node.normalizeEdgeProbabilities();
         }
     }

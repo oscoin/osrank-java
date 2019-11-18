@@ -23,11 +23,11 @@ public class SimpleGraphLoaderTest {
                 null,
                 null,
                 null,
-                4,
-                2,
-                1,
-                3,
-                2));
+                4d,
+                2d,
+                1d,
+                3d,
+                2d));
 
 
         List<Node> nodes = simpleGraph.getAllNodes();

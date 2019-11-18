@@ -1,5 +1,7 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
+import io.oscoin.algo.OsrankResults;
 import io.oscoin.util.OrderedPair;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +62,7 @@ public abstract class Node {
     /**
      * Build probabilities for edges.
      */
-    public abstract void buildConnectedNodeProbs(
-            int projectDependencyWeight,
-            int projectMaintainerWeight,
-            int projectContributionWeight,
-            int accountMaintainerWeight,
-            int accountContributionWeight);
+    public abstract void buildConnectedNodeProbs(OsrankParams osrankParams);
 
     /**
      * Calling this "method normalizes" the edges in connectedNodeProbs so that all of double values in the

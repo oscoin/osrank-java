@@ -26,11 +26,11 @@ public class FileGraphLoaderTest {
                 null,
                 false,
                 null,
-                4,
-                2,
-                1,
-                3,
-                2));
+                4d,
+                2d,
+                1d,
+                3d,
+                2d));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();
@@ -54,11 +54,11 @@ public class FileGraphLoaderTest {
                 null,
                 false,
                 null,
-                4,
-                2,
-                1,
-                3,
-                2));
+                4d,
+                2d,
+                1d,
+                3d,
+                2d));
 
         // Check that there are lots of dependencies
         Integer numTotalDependencies = graph
@@ -90,11 +90,11 @@ public class FileGraphLoaderTest {
                 null,
                 false,
                 null,
-                4,
-                2,
-                1,
-                3,
-                2));
+                4d,
+                2d,
+                1d,
+                3d,
+                2d));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();
@@ -119,11 +119,11 @@ public class FileGraphLoaderTest {
                 null,
                 true,
                 null,
-                4,
-                2,
-                1,
-                3,
-                2));
+                4d,
+                2d,
+                1d,
+                3d,
+                2d));
 
         // Check that there are lots of nodes
         List<Node> nodes = graph.getAllNodes();

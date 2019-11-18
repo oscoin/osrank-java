@@ -29,11 +29,11 @@ public class OsrankNaiveFileGraphApp {
     public static final Boolean ADD_MAINTAINERS = false;
     public static final long RANDOM_SEED = 842384239487239l;
 
-    public static final int PROJECT_DEPENDENCY_WEIGHT = 4;
-    public static final int PROJECT_MAINTAINER_WEIGHT = 0;
-    public static final int PROJECT_CONTRIBUTION_WEIGHT = 4;
-    public static final int ACCOUNT_MAINTAINER_WEIGHT = 3;
-    public static final int ACCOUNT_CONTRIBUTION_WEIGHT = 2;
+    public static final double PROJECT_DEPENDENCY_WEIGHT = 4d;
+    public static final double PROJECT_MAINTAINER_WEIGHT = 0d;
+    public static final double PROJECT_CONTRIBUTION_WEIGHT = 1d;
+    public static final double ACCOUNT_MAINTAINER_WEIGHT = 3d;
+    public static final double ACCOUNT_CONTRIBUTION_WEIGHT = 2d;
 
     public OsrankNaiveFileGraphApp() {
     }

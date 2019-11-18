@@ -1,5 +1,6 @@
 package io.oscoin.graph;
 
+import io.oscoin.algo.OsrankParams;
 import io.oscoin.util.OrderedPair;
 
 import java.util.ArrayList;
@@ -52,20 +53,15 @@ public class ProjectNode extends Node {
     /**
      * Use the given relative weights to build node probabilities.
      */
-    public void buildConnectedNodeProbs(
-            int projectDependencyWeight,
-            int projectMaintainerWeight,
-            int projectContributionWeight,
-            int accountMaintainerWeight,
-            int accountContributionWeight) {
+    public void buildConnectedNodeProbs(OsrankParams osrankParams) {
         // Clear connected node probs in case this method was called before
         connectedNodeProbs.clear();
 
         // Convert project weights into ratios, ignore account weights
-        double totalWeight = projectDependencyWeight + projectMaintainerWeight + projectContributionWeight;
-        double dependencyRatio = projectDependencyWeight / totalWeight;
-        double maintainerRatio = projectMaintainerWeight / totalWeight;
-        double contributionRatio = projectContributionWeight / totalWeight;
+        double totalWeight = osrankParams.getProjectDependencyWeight() + osrankParams.getProjectMaintainerWeight() + osrankParams.getProjectContributionWeight();
+        double dependencyRatio = osrankParams.getProjectDependencyWeight() / totalWeight;
+        double maintainerRatio = osrankParams.getProjectMaintainerWeight() / totalWeight;
+        double contributionRatio = osrankParams.getProjectContributionWeight() / totalWeight;
 
         // First get the total contrib count
         int totalContribs = 0;

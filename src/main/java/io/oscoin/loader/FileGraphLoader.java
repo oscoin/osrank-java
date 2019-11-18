@@ -43,12 +43,7 @@ public class FileGraphLoader {
         }
 
         // Preprocess
-        graph.buildAndNormalizeAllNodes(
-            osrankParams.getProjectDependencyWeight(),
-            osrankParams.getProjectMaintainerWeight(),
-            osrankParams.getProjectContributionWeight(),
-            osrankParams.getAccountMaintainerWeight(),
-            osrankParams.getAccountContributionWeight());
+        graph.buildAndNormalizeAllNodes(osrankParams);
 
         return graph;
     }
