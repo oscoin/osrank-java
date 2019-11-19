@@ -280,7 +280,7 @@ public class OsrankParams {
             projectMaintainerWeight,
             projectContributionWeight,
             accountMaintainerWeight,
-            accountMaintainerWeight);
+            accountContributionWeight);
     }
 
     // Factory method to generate params object from command-line values.
