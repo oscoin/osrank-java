@@ -42,11 +42,14 @@ Once Java and IntelliJ have been installed and the project configured as describ
 
 3. It will take a moment to build and then updates and eventually results will start to be printed out in the console. Congrats! You just ran Osrank on a randomly generated graph. If you would like to adjust the parameters related to graph generation or the run itself, they can be found as constant fields at the top of the OsrankNaiveRandomGraphApp class.
 
-4. Now let's try running against data from the Rust/Cargo ecosystem. Clone the repo for osrank-rs-ecosystems from the oscoin github repository into a parallel directory:
+4. Now let's try running against data from the Rust/Cargo ecosystem. For convenience, this data has been included in the project subdirectory:
 
-`git clone https://github.com/oscoin/osrank-rs-ecosystems.git`
+`data/rust_cargo/`
 
-5. Open the file io.oscoin.app.OsrankNaiveFileGraphApp and set the constant values for DEPENDENCIES_FILE_PATH and CONTRIBUTIONS_FILE_PATH to point to the dependencies and contributions files respectively in the repository you just cloned.
+5. Open the file io.oscoin.app.OsrankNaiveFileGraphApp and set the constant values for DEPENDENCIES_FILE_PATH and CONTRIBUTIONS_FILE_PATH to point to the dependencies and contributions files respectively in the repository you just cloned, specifically:
+
+`data/rust_cargo/dependencies.csv`
+`data/rust_cargo/contributions.csv`
 
 6. Choose Run > Debug... and then click on OsrankNaiveFileGraphApp in the little window that opens. 
 
@@ -64,7 +67,7 @@ https://stackoverflow.com/questions/1082580/how-to-build-jars-from-intellij-prop
 
 3. Run from command line:
 
-`java -jar out/artifacts/osrank_jar/osrank.jar metadataFilePath=./metadata.csv dependenciesFilePath=./dependencies.csv contributionsFilePath=./contributions.csv`
+`java -jar out/artifacts/osrank_jar/osrank.jar metadataFilePath=./data/rust_cargo/metadata.csv dependenciesFilePath=./data/rust_cargo/dependencies.csv contributionsFilePath=./data_/rust_cargocontributions.csv`
 
 
 
